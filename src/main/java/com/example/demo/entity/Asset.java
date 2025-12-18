@@ -10,5 +10,10 @@ public class Asset{
     private String assetTag;
     private String assetType;
     private String model;
+    private LocalDate purchaseDate;
+    private String status;
+    private User currentHolder;
+    private LocalDateTime createdAt;
+
 
 } 
