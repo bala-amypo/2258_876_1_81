@@ -14,6 +14,7 @@ public class Asset{
     private String status;
     private User currentHolder;
     private LocalDateTime createdAt;
+    
 
 
 } 
