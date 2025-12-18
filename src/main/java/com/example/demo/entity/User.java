@@ -4,5 +4,8 @@ public class User{
     @Id
     private Long id;
     private String fullName;
-    private 
+    private String email;
+    private String department;
+    private String password;
+    private LocalDateTime createdAt;
 }
