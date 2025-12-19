@@ -14,7 +14,6 @@ public class AssetServiceImpl implements AssetService {
 
     private final AssetRepository assetRepository;
 
-    // Constructor Injection
     public AssetServiceImpl(AssetRepository assetRepository) {
         this.assetRepository = assetRepository;
     }
