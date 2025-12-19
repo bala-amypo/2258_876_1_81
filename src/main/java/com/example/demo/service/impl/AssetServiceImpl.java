@@ -1,11 +1,12 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Asset;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.ValidationException;
 import com.example.demo.repository.AssetRepository;
 import com.example.demo.service.AssetService;
 
@@ -20,12 +21,17 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Asset createAsset(Asset asset) {
-        return assetRepository.save(asset);
+        try {
+            return assetRepository.save(asset);
+        } catch (Exception e) {
+            throw new ValidationException("Asset tag must be unique");
+        }
     }
 
     @Override
     public Asset getAsset(Long id) {
-        return assetRepository.findById(id).orElse(null);
+        return assetRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
     }
 
     @Override
@@ -35,12 +41,10 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Asset updateStatus(Long assetId, String status) {
-        Optional<Asset> assetOpt = assetRepository.findById(assetId);
-        if (assetOpt.isPresent()) {
-            Asset asset = assetOpt.get();
-            asset.setStatus(status);
-            return assetRepository.save(asset);
-        }
-        return null;
+        Asset asset = assetRepository.findById(assetId)
+                .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
+
+        asset.setStatus(status);
+        return assetRepository.save(asset);
     }
 }
