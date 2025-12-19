@@ -5,21 +5,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-// @Table(name = "assets")
+@Table(name = "assets")
 public class Asset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique=true)
+
+    @Column(name = "asset_tag", unique = true, nullable = false)
     private String assetTag;
+
+    @Column(name = "asset_type")
     private String assetType;
+
     private String model;
+
     private LocalDate purchaseDate;
+
     private String status;
 
-    // @ManyToOne
-    // @JoinColumn(name = "current_holder_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "current_holder_id")
     private User currentHolder;
 
     private LocalDateTime createdAt;
@@ -33,6 +39,8 @@ public class Asset {
             createdAt = LocalDateTime.now();
         }
     }
+
+    // ===== Getters & Setters =====
 
     public Long getId() {
         return id;
