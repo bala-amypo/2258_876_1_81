@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Asset;
-import com.example.demo.service.AssetService;
-import org.springframework.http.ResponseEntity;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.entity.Asset;
+import com.example.demo.service.AssetService;
 
 @RestController
 @RequestMapping("/api/assets")
@@ -18,29 +18,28 @@ public class AssetController {
     }
 
     @PostMapping
-    public ResponseEntity<Asset> createAsset(@RequestBody Asset asset) {
-        Asset createdAsset = assetService.createAsset(asset);
-        return ResponseEntity.ok(createdAsset);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Asset> getAsset(@PathVariable Long id) {
-        Asset asset = assetService.getAsset(id);
-        return ResponseEntity.ok(asset);
+    public Asset createAsset(@RequestBody Asset asset) {
+        return assetService.createAsset(asset);
     }
 
     @GetMapping
-    public ResponseEntity<List<Asset>> getAllAssets() {
-        List<Asset> assets = assetService.getAllAssets();
-        return ResponseEntity.ok(assets);
+    public List<Asset> getAllAssets() {
+        return assetService.getAllAssets();
     }
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<Asset> updateStatus(
-            @PathVariable Long id,
-            @RequestParam String status
-    ) {
-        Asset updatedAsset = assetService.updateStatus(id, status);
-        return ResponseEntity.ok(updatedAsset);
+    @GetMapping("/{id}")
+    public Asset getAsset(@PathVariable Long id) {
+        return assetService.getAsset(id);
+    }
+
+    @PutMapping("/{id}")
+    public Asset updateStatus(@PathVariable Long id,
+                              @RequestParam String status) {
+        return assetService.updateStatus(id, status);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAsset(@PathVariable Long id) {
+        assetService.updateStatus(id, "DELETED");
     }
 }
