@@ -18,8 +18,8 @@ public class Asset {
     private LocalDate purchaseDate;
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "current_holder_id")
+    // @ManyToOne
+    // @JoinColumn(name = "current_holder_id")
     private User currentHolder;
 
     private LocalDateTime createdAt;
