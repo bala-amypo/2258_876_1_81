@@ -7,11 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "Users")
 public class UserController {
 
     private final UserService userService;
@@ -20,8 +17,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
+    @PostMapping
+    public User createUser(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
@@ -33,5 +30,17 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
         return userService.getUser(id);
+    }
+
+    @PutMapping("/{id}")
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user) {
+        user.setId(id);
+        return userService.registerUser(user);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        // simple delete via repository not implemented
     }
 }
