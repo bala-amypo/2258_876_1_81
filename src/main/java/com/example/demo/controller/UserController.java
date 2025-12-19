@@ -1,14 +1,15 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User Controller")
 public class UserController {
 
     private final UserService userService;
@@ -17,30 +18,27 @@ public class UserController {
         this.userService = userService;
     }
 
+    // CREATE (REGISTER)
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User registerUser(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
+    // READ ALL
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
+    // READ BY ID
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id,
-                           @RequestBody User user) {
-        user.setId(id);
-        return userService.registerUser(user);
-    }
-
+    // DELETE
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        // simple delete via repository not implemented
+        userService.getUser(id);
     }
 }
