@@ -5,15 +5,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "assets", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "assetTag")
-})
+@Table(name = "assets")
 public class Asset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique=true)
     private String assetTag;
     private String assetType;
     private String model;
