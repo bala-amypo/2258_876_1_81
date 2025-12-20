@@ -42,10 +42,4 @@ public class AssetController {
                               @RequestParam String status) {
         return assetService.updateStatus(id, status);
     }
-
-    // DELETE (Optional but valid CRUD)
-    @DeleteMapping("/{id}")
-    public void deleteAsset(@PathVariable Long id) {
-        assetService.getAsset(id); // ensure exists
-    }
 }

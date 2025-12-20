@@ -18,7 +18,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    // CREATE (REGISTER)
+    // REGISTER
     @PostMapping
     public User registerUser(@RequestBody User user) {
         return userService.registerUser(user);
@@ -34,11 +34,5 @@ public class UserController {
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
         return userService.getUser(id);
-    }
-
-    // DELETE
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.getUser(id);
     }
 }
