@@ -1,32 +1,20 @@
 package com.example.demo.config;
 
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.List;
 
 @Configuration
-public class SecurityConfig {
+public class OpenApiConfig {
 
-    // Keep password encoder ONLY for hashing
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    // Disable login, authentication, csrf
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()
-            )
-            .formLogin(form -> form.disable())
-            .httpBasic(basic -> basic.disable());
-
-        return http.build();
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .servers(List.of(
+                        new Server().url("https://9051.pro604cr.amypo.ai/")
+                ));
     }
 }

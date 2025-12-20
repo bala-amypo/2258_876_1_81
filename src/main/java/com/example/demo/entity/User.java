@@ -20,7 +20,6 @@ public class User {
     private String department;
     private String role;
     private String password;
-
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "currentHolder")
@@ -30,11 +29,11 @@ public class User {
 
     @PrePersist
     public void prePersist() {
-        if (role == null) role = "USER";
-        createdAt = LocalDateTime.now();
-        password = ""; // empty password
+        if (this.role == null) this.role = "USER";
+        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
     }
 
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -51,4 +50,7 @@ public class User {
     public void setRole(String role) { this.role = role; }
 
     public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }
