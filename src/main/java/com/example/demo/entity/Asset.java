@@ -29,11 +29,10 @@ public class Asset {
 
     @PrePersist
     public void prePersist() {
-        if (this.status == null) this.status = "AVAILABLE";
-        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
+        if (status == null) status = "AVAILABLE";
+        createdAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
