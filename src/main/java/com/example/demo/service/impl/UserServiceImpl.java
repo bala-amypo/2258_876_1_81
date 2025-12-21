@@ -5,7 +5,6 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import jakarta.validation.ValidationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +13,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -35,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
         if (user.getRole() == null) user.setRole("USER");
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Store password as plain text (or implement a dummy encoder if you want)
+        // user.setPassword(user.getPassword());
 
         return userRepository.save(user);
     }
