@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -15,16 +13,14 @@ public class DisposalRecord {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "asset_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "asset_id")
     private Asset asset;
 
     private String disposalMethod;
     private LocalDate disposalDate;
 
     @ManyToOne
-    @JoinColumn(name = "approved_by", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "approved_by")
     private User approvedBy;
 
     private String notes;
@@ -33,16 +29,14 @@ public class DisposalRecord {
     public DisposalRecord() {
     }
 
-    public DisposalRecord(Long id, Asset asset, String disposalMethod,
+    public DisposalRecord(Asset asset, String disposalMethod,
                           LocalDate disposalDate, User approvedBy,
-                          String notes, LocalDateTime createdAt) {
-        this.id = id;
+                          String notes) {
         this.asset = asset;
         this.disposalMethod = disposalMethod;
         this.disposalDate = disposalDate;
         this.approvedBy = approvedBy;
         this.notes = notes;
-        this.createdAt = createdAt;
     }
 
     @PrePersist
@@ -52,19 +46,7 @@ public class DisposalRecord {
         }
     }
 
-    public LocalDate getDisposalDate() {
-        return disposalDate;
-    }
-
-    public User getApprovedBy() {
-        return approvedBy;
-    }
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
-    public void setApprovedBy(User approvedBy) {
-        this.approvedBy = approvedBy;
+    public Long getId() {
+        return id;
     }
 }
