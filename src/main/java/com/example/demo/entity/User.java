@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,38 +19,52 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String department;
+
     private String role;
+
+    @JsonIgnore
     private String password;
+
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "currentHolder")
-    @JsonIgnore
-    private List<Asset> assets;
-
-    @OneToMany(mappedBy = "performedBy")
-    @JsonIgnore
-    private List<LifecycleEvent> lifecycleEvents;
-
-    @OneToMany(mappedBy = "approvedBy")
-    @JsonIgnore
-    private List<TransferRecord> transferRecords;
-
-    @OneToMany(mappedBy = "approvedBy")
-    @JsonIgnore
-    private List<DisposalRecord> disposalRecords;
+    /* ================= CONSTRUCTORS ================= */
 
     public User() {
     }
 
-    public User(String fullName, String email, String department,
-                String role, String password) {
+    public User(Long id,
+                String fullName,
+                String email,
+                String department,
+                String role,
+                String password,
+                LocalDateTime createdAt) {
+        this.id = id;              // optional even with @GeneratedValue
         this.fullName = fullName;
         this.email = email;
         this.department = department;
         this.role = role;
         this.password = password;
+        this.createdAt = createdAt;
     }
+
+    /* ================= RELATIONSHIPS ================= */
+
+    @OneToMany(mappedBy = "currentHolder")
+    private List<Asset> assets;
+
+    @OneToMany(mappedBy = "performedBy")
+    private List<LifecycleEvent> lifecycleEvents;
+
+    @OneToMany(mappedBy = "approvedBy")
+    private List<TransferRecord> transferRecords;
+
+    @OneToMany(mappedBy = "approvedBy")
+    private List<DisposalRecord> disposalRecords;
+
+    /* ================= PRE PERSIST ================= */
 
     @PrePersist
     public void prePersist() {
@@ -61,8 +76,14 @@ public class User {
         }
     }
 
+    /* ================= GETTERS & SETTERS ================= */
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -99,5 +120,17 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
