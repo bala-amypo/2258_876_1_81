@@ -25,7 +25,9 @@ public class Asset {
 
     private LocalDateTime createdAt;
 
-    public Asset() {}
+    public Asset() {
+
+    }
 
     @PrePersist
     public void prePersist() {
@@ -33,9 +35,12 @@ public class Asset {
         if (this.createdAt == null) this.createdAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() { 
+        return id; 
+    }
+    public void setId(Long id){ 
+        this.id = id;
+    }
 
     public String getAssetTag() { return assetTag; }
     public void setAssetTag(String assetTag) { this.assetTag = assetTag; }
