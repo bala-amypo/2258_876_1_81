@@ -5,27 +5,54 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String fullName;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String department;
+
     private String role;
+
+    @Column(nullable = false)
     private String password;
+
     private LocalDateTime createdAt;
 
+    // Relationships
     @OneToMany(mappedBy = "currentHolder")
     private List<Asset> assets;
 
+    @OneToMany(mappedBy = "performedBy")
+    private List<LifecycleEvent> lifecycleEvents;
+
+    @OneToMany(mappedBy = "approvedBy")
+    private List<TransferRecord> transferRecords;
+
+    @OneToMany(mappedBy = "approvedBy")
+    private List<DisposalRecord> disposalRecords;
+
     public User() {}
+
+    public User(Long id, String fullName, String email, String department,
+                String role, String password, LocalDateTime createdAt) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.department = department;
+        this.role = role;
+        this.password = password;
+        this.createdAt = createdAt;
+    }
 
     @PrePersist
     public void prePersist() {
@@ -33,7 +60,7 @@ public class User {
         if (this.createdAt == null) this.createdAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -53,4 +80,5 @@ public class User {
     public void setPassword(String password) { this.password = password; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
