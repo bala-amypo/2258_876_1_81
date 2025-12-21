@@ -59,4 +59,12 @@ public class DisposalRecord {
     public User getApprovedBy() {
         return approvedBy;
     }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
+    public void setApprovedBy(User approvedBy) {
+        this.approvedBy = approvedBy;
+    }
 }

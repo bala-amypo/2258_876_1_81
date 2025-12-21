@@ -59,12 +59,20 @@ public class LifecycleEvent {
         return asset;
     }
 
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
+
     public String getEventType() {
         return eventType;
     }
 
     public String getEventDescription() {
         return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
     }
 
     public LocalDateTime getEventDate() {
@@ -75,7 +83,7 @@ public class LifecycleEvent {
         return performedBy;
     }
 
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
+    public void setPerformedBy(User performedBy) {
+        this.performedBy = performedBy;
     }
 }
