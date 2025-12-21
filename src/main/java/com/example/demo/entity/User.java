@@ -2,6 +2,8 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -12,9 +14,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String fullName;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    private String department;
     private String role;
+    private String password;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "currentHolder")
     @JsonManagedReference
@@ -35,73 +43,73 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String role) {
-        this.name = name;
+    public User(Long id, String fullName, String email,
+                String department, String role,
+                String password, LocalDateTime createdAt) {
+        this.id = id;
+        this.fullName = fullName;
         this.email = email;
+        this.department = department;
         this.role = role;
+        this.password = password;
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.role == null) {
+            this.role = "USER";
+        }
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getFullName() {
+        return fullName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getDepartment() {
+        return department;
     }
 
     public String getRole() {
         return role;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public void setRole(String role) {
         this.role = role;
     }
 
-    public List<Asset> getAssets() {
-        return assets;
-    }
-
-    public void setAssets(List<Asset> assets) {
-        this.assets = assets;
-    }
-
-    public List<LifecycleEvent> getLifecycleEvents() {
-        return lifecycleEvents;
-    }
-
-    public void setLifecycleEvents(List<LifecycleEvent> lifecycleEvents) {
-        this.lifecycleEvents = lifecycleEvents;
-    }
-
-    public List<TransferRecord> getTransferRecords() {
-        return transferRecords;
-    }
-
-    public void setTransferRecords(List<TransferRecord> transferRecords) {
-        this.transferRecords = transferRecords;
-    }
-
-    public List<DisposalRecord> getDisposalRecords() {
-        return disposalRecords;
-    }
-
-    public void setDisposalRecords(List<DisposalRecord> disposalRecords) {
-        this.disposalRecords = disposalRecords;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

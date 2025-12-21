@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -12,14 +13,14 @@ public class TransferRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate transferDate;
-    private String fromDepartment;
-    private String toDepartment;
-
     @ManyToOne
     @JoinColumn(name = "asset_id", nullable = false)
     @JsonBackReference
     private Asset asset;
+
+    private String fromDepartment;
+    private String toDepartment;
+    private LocalDate transferDate;
 
     @ManyToOne
     @JoinColumn(name = "approved_by", nullable = false)
@@ -29,57 +30,22 @@ public class TransferRecord {
     public TransferRecord() {
     }
 
-    public TransferRecord(LocalDate transferDate, String fromDepartment, String toDepartment) {
-        this.transferDate = transferDate;
+    public TransferRecord(Long id, Asset asset,
+                          String fromDepartment, String toDepartment,
+                          LocalDate transferDate, User approvedBy) {
+        this.id = id;
+        this.asset = asset;
         this.fromDepartment = fromDepartment;
         this.toDepartment = toDepartment;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.transferDate = transferDate;
+        this.approvedBy = approvedBy;
     }
 
     public LocalDate getTransferDate() {
         return transferDate;
     }
 
-    public void setTransferDate(LocalDate transferDate) {
-        this.transferDate = transferDate;
-    }
-
-    public String getFromDepartment() {
-        return fromDepartment;
-    }
-
-    public void setFromDepartment(String fromDepartment) {
-        this.fromDepartment = fromDepartment;
-    }
-
-    public String getToDepartment() {
-        return toDepartment;
-    }
-
-    public void setToDepartment(String toDepartment) {
-        this.toDepartment = toDepartment;
-    }
-
-    public Asset getAsset() {
-        return asset;
-    }
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
     public User getApprovedBy() {
         return approvedBy;
-    }
-
-    public void setApprovedBy(User approvedBy) {
-        this.approvedBy = approvedBy;
     }
 }
