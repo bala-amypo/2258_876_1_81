@@ -49,7 +49,7 @@ public class Asset {
     public Asset(Long id, String assetTag, String assetType, String model,
                  LocalDate purchaseDate, String status,
                  User currentHolder, LocalDateTime createdAt) {
-        this.id = id;
+        
         this.assetTag = assetTag;
         this.assetType = assetType;
         this.model = model;
