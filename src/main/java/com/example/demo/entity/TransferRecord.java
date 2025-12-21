@@ -33,7 +33,7 @@ public class TransferRecord {
     public TransferRecord(Long id, Asset asset,
                           String fromDepartment, String toDepartment,
                           LocalDate transferDate, User approvedBy) {
-        this.id = id;
+        
         this.asset = asset;
         this.fromDepartment = fromDepartment;
         this.toDepartment = toDepartment;
