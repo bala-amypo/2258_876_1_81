@@ -80,7 +80,11 @@ public class Asset {
     public User getCurrentHolder(){
         return currentHolder;
     }
-    public void setCurrentHolder(User currentHolder) { this.currentHolder = currentHolder; }
+    public void setCurrentHolder(User currentHolder){
+        this.currentHolder = currentHolder;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getCreatedAt(){
+        return createdAt;
+    }
 }
