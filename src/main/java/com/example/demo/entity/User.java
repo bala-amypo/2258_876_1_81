@@ -1,8 +1,7 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,34 +24,31 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "currentHolder")
-    @JsonManagedReference
+    @JsonIgnore
     private List<Asset> assets;
 
     @OneToMany(mappedBy = "performedBy")
-    @JsonManagedReference
+    @JsonIgnore
     private List<LifecycleEvent> lifecycleEvents;
 
     @OneToMany(mappedBy = "approvedBy")
-    @JsonManagedReference
+    @JsonIgnore
     private List<TransferRecord> transferRecords;
 
     @OneToMany(mappedBy = "approvedBy")
-    @JsonManagedReference
+    @JsonIgnore
     private List<DisposalRecord> disposalRecords;
 
     public User() {
     }
 
-    public User(Long id, String fullName, String email,
-                String department, String role,
-                String password, LocalDateTime createdAt) {
-        this.id = id;
+    public User(String fullName, String email, String department,
+                String role, String password) {
         this.fullName = fullName;
         this.email = email;
         this.department = department;
         this.role = role;
         this.password = password;
-        this.createdAt = createdAt;
     }
 
     @PrePersist
@@ -73,43 +69,35 @@ public class User {
         return fullName;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getRole() {
+        return role;
     }
 
     public void setRole(String role) {
         this.role = role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public String getPassword() {
+        return password;
     }
 }

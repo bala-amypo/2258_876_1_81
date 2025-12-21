@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -14,8 +12,7 @@ public class TransferRecord {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "asset_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "asset_id")
     private Asset asset;
 
     private String fromDepartment;
@@ -23,17 +20,15 @@ public class TransferRecord {
     private LocalDate transferDate;
 
     @ManyToOne
-    @JoinColumn(name = "approved_by", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "approved_by")
     private User approvedBy;
 
     public TransferRecord() {
     }
 
-    public TransferRecord(Long id, Asset asset,
-                          String fromDepartment, String toDepartment,
-                          LocalDate transferDate, User approvedBy) {
-        
+    public TransferRecord(Asset asset, String fromDepartment,
+                          String toDepartment, LocalDate transferDate,
+                          User approvedBy) {
         this.asset = asset;
         this.fromDepartment = fromDepartment;
         this.toDepartment = toDepartment;
@@ -41,27 +36,7 @@ public class TransferRecord {
         this.approvedBy = approvedBy;
     }
 
-    public String getFromDepartment() {
-        return fromDepartment;
-    }
-
-    public String getToDepartment() {
-        return toDepartment;
-    }
-
-    public LocalDate getTransferDate() {
-        return transferDate;
-    }
-
-    public User getApprovedBy() {
-        return approvedBy;
-    }
-
-    public void setAsset(Asset asset) {
-        this.asset = asset;
-    }
-
-    public void setApprovedBy(User approvedBy) {
-        this.approvedBy = approvedBy;
+    public Long getId() {
+        return id;
     }
 }

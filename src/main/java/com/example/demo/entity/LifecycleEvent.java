@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,33 +12,25 @@ public class LifecycleEvent {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "asset_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "asset_id")
     private Asset asset;
 
     private String eventType;
-
-    @Column(nullable = false)
     private String eventDescription;
-
     private LocalDateTime eventDate;
 
     @ManyToOne
-    @JoinColumn(name = "performed_by", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "performed_by")
     private User performedBy;
 
     public LifecycleEvent() {
     }
 
-    public LifecycleEvent(Long id, Asset asset, String eventType,
-                          String eventDescription, LocalDateTime eventDate,
-                          User performedBy) {
-        this.id = id;
+    public LifecycleEvent(Asset asset, String eventType,
+                          String eventDescription, User performedBy) {
         this.asset = asset;
         this.eventType = eventType;
         this.eventDescription = eventDescription;
-        this.eventDate = eventDate;
         this.performedBy = performedBy;
     }
 
@@ -61,29 +51,5 @@ public class LifecycleEvent {
 
     public void setAsset(Asset asset) {
         this.asset = asset;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public String getEventDescription() {
-        return eventDescription;
-    }
-
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
-
-    public LocalDateTime getEventDate() {
-        return eventDate;
-    }
-
-    public User getPerformedBy() {
-        return performedBy;
-    }
-
-    public void setPerformedBy(User performedBy) {
-        this.performedBy = performedBy;
     }
 }
