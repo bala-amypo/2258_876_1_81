@@ -1,10 +1,8 @@
 package com.example.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "assets")
@@ -14,7 +12,7 @@ public class Asset {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String assetTag;
 
     private String assetType;
@@ -23,99 +21,70 @@ public class Asset {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "current_holder_id")
     private User currentHolder;
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "asset")
-    @JsonIgnore
-    private List<LifecycleEvent> lifecycleEvents;
-
-    @OneToMany(mappedBy = "asset")
-    @JsonIgnore
-    private List<TransferRecord> transferRecords;
-
-    @OneToOne(mappedBy = "asset")
-    @JsonIgnore
-    private DisposalRecord disposalRecord;
-
     public Asset() {
-    }
 
-    public Asset(String assetTag, String assetType, String model,
-                 LocalDate purchaseDate, String status, User currentHolder) {
-        this.assetTag = assetTag;
-        this.assetType = assetType;
-        this.model = model;
-        this.purchaseDate = purchaseDate;
-        this.status = status;
-        this.currentHolder = currentHolder;
     }
 
     @PrePersist
     public void prePersist() {
-        if (this.status == null) {
-            this.status = "AVAILABLE";
-        }
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
-        }
+        if (this.status == null) this.status = "AVAILABLE";
+        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
+    public Long getId() { 
+        return id; 
+    }
+    public void setId(Long id){ 
+        this.id = id;
     }
 
-    public String getAssetTag() {
+    public String getAssetTag(){
         return assetTag;
     }
-
-    public void setAssetTag(String assetTag) {
+    public void setAssetTag(String assetTag){
         this.assetTag = assetTag;
     }
 
-    public String getAssetType() {
+    public String getAssetType(){
         return assetType;
     }
-
-    public void setAssetType(String assetType) {
+    public void setAssetType(String assetType){
         this.assetType = assetType;
     }
 
-    public String getModel() {
-        return model;
+    public String getModel(){
+        return model; 
     }
-
-    public void setModel(String model) {
+    public void setModel(String model){
         this.model = model;
     }
 
-    public LocalDate getPurchaseDate() {
+    public LocalDate getPurchaseDate(){
         return purchaseDate;
     }
-
-    public void setPurchaseDate(LocalDate purchaseDate) {
+    public void setPurchaseDate(LocalDate purchaseDate){
         this.purchaseDate = purchaseDate;
     }
 
-    public String getStatus() {
+    public String getStatus(){
         return status;
     }
-
-    public void setStatus(String status) {
+    public void setStatus(String status){
         this.status = status;
     }
 
-    public User getCurrentHolder() {
+    public User getCurrentHolder(){
         return currentHolder;
     }
-
-    public void setCurrentHolder(User currentHolder) {
+    public void setCurrentHolder(User currentHolder){
         this.currentHolder = currentHolder;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDateTime getCreatedAt(){
         return createdAt;
     }
 }
