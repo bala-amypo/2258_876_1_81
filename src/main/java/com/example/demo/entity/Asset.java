@@ -45,7 +45,6 @@ public class Asset {
         this.status = status;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
