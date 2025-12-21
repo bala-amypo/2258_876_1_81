@@ -26,20 +26,12 @@ public class LifecycleEvent {
     public LifecycleEvent() {
     }
 
-    public LifecycleEvent(Asset asset, String eventType,
-                          String eventDescription, User performedBy) {
-        this.asset = asset;
-        this.eventType = eventType;
-        this.eventDescription = eventDescription;
-        this.performedBy = performedBy;
-    }
-
     @PrePersist
     public void prePersist() {
-        if (this.eventDate == null) {
-            this.eventDate = LocalDateTime.now();
-        }
+        this.eventDate = LocalDateTime.now();
     }
+
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;
@@ -51,5 +43,29 @@ public class LifecycleEvent {
 
     public void setAsset(Asset asset) {
         this.asset = asset;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public String getEventDescription() {
+        return eventDescription;
+    }
+
+    public void setEventDescription(String eventDescription) {
+        this.eventDescription = eventDescription;
+    }
+
+    public User getPerformedBy() {
+        return performedBy;
+    }
+
+    public void setPerformedBy(User performedBy) {
+        this.performedBy = performedBy;
     }
 }
