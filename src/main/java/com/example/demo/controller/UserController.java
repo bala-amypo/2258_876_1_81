@@ -17,23 +17,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    // REGISTER User
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
-    // GET User by ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.getUser(id));
     }
 
-    // GET all Users
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    // Other CRUD operations intentionally left empty
 }

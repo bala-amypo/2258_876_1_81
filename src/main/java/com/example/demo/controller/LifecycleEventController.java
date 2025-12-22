@@ -16,7 +16,6 @@ public class LifecycleEventController {
         this.lifecycleEventService = lifecycleEventService;
     }
 
-    // CREATE: Log a new lifecycle event
     @PostMapping("/log")
     public ResponseEntity<LifecycleEvent> logEvent(@RequestParam Long assetId,
                                                    @RequestParam Long userId,
@@ -25,13 +24,11 @@ public class LifecycleEventController {
         return ResponseEntity.ok(savedEvent);
     }
 
-    // READ: Get events for an asset
     @GetMapping("/asset/{assetId}")
     public ResponseEntity<List<LifecycleEvent>> getEventsForAsset(@PathVariable Long assetId) {
         return ResponseEntity.ok(lifecycleEventService.getEventsForAsset(assetId));
     }
 
-    // READ: Get single event by id
     @GetMapping("/{id}")
     public ResponseEntity<LifecycleEvent> getEvent(@PathVariable Long id) {
         return ResponseEntity.ok(lifecycleEventService.getEvent(id));

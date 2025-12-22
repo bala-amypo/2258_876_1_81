@@ -27,7 +27,6 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    // Relationships
     @OneToMany(mappedBy = "currentHolder")
     private List<Asset> assets;
 
@@ -59,7 +58,6 @@ public class User {
         if (this.createdAt == null) this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
