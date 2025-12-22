@@ -17,30 +17,25 @@ public class AssetController {
         this.assetService = assetService;
     }
 
-    // CREATE Asset
     @PostMapping
     public ResponseEntity<Asset> createAsset(@RequestBody Asset asset) {
         return ResponseEntity.ok(assetService.createAsset(asset));
     }
 
-    // GET Asset by ID
     @GetMapping("/{id}")
     public ResponseEntity<Asset> getAsset(@PathVariable Long id) {
         return ResponseEntity.ok(assetService.getAsset(id));
     }
 
-    // GET all Assets
     @GetMapping
     public ResponseEntity<List<Asset>> getAllAssets() {
         return ResponseEntity.ok(assetService.getAllAssets());
     }
 
-    // UPDATE Asset status
     @PatchMapping("/{id}/status")
     public ResponseEntity<Asset> updateStatus(@PathVariable Long id,
                                               @RequestParam String status) {
         return ResponseEntity.ok(assetService.updateStatus(id, status));
     }
 
-    // Other CRUD operations intentionally left empty
 }

@@ -55,7 +55,6 @@ public class DisposalRecordServiceImpl implements DisposalRecordService {
 
         DisposalRecord savedRecord = disposalRecordRepository.save(disposal);
 
-        // Automatically update asset status
         asset.setStatus("DISPOSED");
         assetRepository.save(asset);
 
