@@ -49,7 +49,7 @@ public class User
     }
 
     public User(
-            Long id,
+            
             String fullName,
             String email,
             String department,
@@ -58,7 +58,7 @@ public class User
             LocalDateTime createdAt
     )
     {
-        this.id = id;
+        
         this.fullName = fullName;
         this.email = email;
         this.department = department;
