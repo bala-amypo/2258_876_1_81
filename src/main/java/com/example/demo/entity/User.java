@@ -3,9 +3,14 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-public class User {
+@Table(
+    name = "users",
+    uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
+public class User
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +44,20 @@ public class User {
     @OneToMany(mappedBy = "approvedBy")
     private List<DisposalRecord> disposalRecords;
 
-    public User() {}
+    public User()
+    {
+    }
 
-    public User(Long id, String fullName, String email, String department,
-                String role, String password, LocalDateTime createdAt) {
+    public User(
+            Long id,
+            String fullName,
+            String email,
+            String department,
+            String role,
+            String password,
+            LocalDateTime createdAt
+    )
+    {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -53,29 +68,86 @@ public class User {
     }
 
     @PrePersist
-    public void prePersist() {
-        if (this.role == null) this.role = "USER";
-        if (this.createdAt == null) this.createdAt = LocalDateTime.now();
+    public void prePersist()
+    {
+        if (this.role == null)
+        {
+            this.role = "USER";
+        }
+
+        if (this.createdAt == null)
+        {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId()
+    {
+        return id;
+    }
 
-    public String getFullName() { return fullName; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getFullName()
+    {
+        return fullName;
+    }
 
-    public String getDepartment() { return department; }
-    public void setDepartment(String department) { this.department = department; }
+    public void setFullName(String fullName)
+    {
+        this.fullName = fullName;
+    }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public String getEmail()
+    {
+        return email;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getDepartment()
+    {
+        return department;
+    }
+
+    public void setDepartment(String department)
+    {
+        this.department = department;
+    }
+
+    public String getRole()
+    {
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public LocalDateTime getCreatedAt()
+    {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt)
+    {
+        this.createdAt = createdAt;
+    }
 }
