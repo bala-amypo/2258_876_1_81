@@ -17,7 +17,6 @@ public class DisposalRecordController {
         this.disposalRecordService = disposalRecordService;
     }
 
-    // CREATE (Admin)
     @PostMapping("/{assetId}")
     public ResponseEntity<DisposalRecord> createDisposal(
             @PathVariable Long assetId,
@@ -28,7 +27,6 @@ public class DisposalRecordController {
         );
     }
 
-    // READ ALL
     @GetMapping
     public ResponseEntity<List<DisposalRecord>> getAllDisposals() {
         return ResponseEntity.ok(
@@ -36,7 +34,6 @@ public class DisposalRecordController {
         );
     }
 
-    // READ BY ID
     @GetMapping("/{id}")
     public ResponseEntity<DisposalRecord> getDisposal(@PathVariable Long id) {
         return ResponseEntity.ok(
@@ -44,5 +41,4 @@ public class DisposalRecordController {
         );
     }
 
-    // Other CRUD operations intentionally left empty
 }

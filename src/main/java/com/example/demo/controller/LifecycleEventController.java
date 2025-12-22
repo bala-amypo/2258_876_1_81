@@ -37,5 +37,4 @@ public class LifecycleEventController {
         return ResponseEntity.ok(lifecycleEventService.getEvent(id));
     }
 
-    // Other CRUD operations can be left empty for now
 }

@@ -4,6 +4,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SecurityConfig {
-    // No security configuration
-    // All endpoints are public
+    
 }
