@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.DisposalRecord;
 import com.example.demo.service.DisposalRecordService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,27 +17,18 @@ public class DisposalRecordController {
     }
 
     @PostMapping("/{assetId}")
-    public ResponseEntity<DisposalRecord> createDisposal(
-            @PathVariable Long assetId,
-            @RequestBody DisposalRecord disposal) {
-
-        return ResponseEntity.ok(
-                disposalRecordService.createDisposal(assetId, disposal)
-        );
+    public DisposalRecord create(@PathVariable Long assetId,
+                                 @RequestBody DisposalRecord record) {
+        return disposalRecordService.createDisposal(assetId, record);
     }
 
     @GetMapping
-    public ResponseEntity<List<DisposalRecord>> getAllDisposals() {
-        return ResponseEntity.ok(
-                disposalRecordService.getAllDisposals()
-        );
+    public List<DisposalRecord> getAll() {
+        return disposalRecordService.getAllDisposals();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DisposalRecord> getDisposal(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                disposalRecordService.getDisposal(id)
-        );
+    public DisposalRecord getById(@PathVariable Long id) {
+        return disposalRecordService.getDisposal(id);
     }
-
 }
