@@ -1,52 +1,64 @@
 package com.example.demo.security;
 
 import com.example.demo.entity.User;
-import io.jsonwebtoken.*;
-import java.util.Date;
-import java.util.Map;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.util.Date;
+
 @Component
 public class JwtUtil {
 
-    private final String SECRET = "secretKey123456";
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(Map<String, Object> claims, String subject) {
+    // Generate JWT token
+    public String generateTokenForUser(User user) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(user.getEmail())
+                .claim("role", user.getRole())
                 .setIssuedAt(new Date())
-                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key)
                 .compact();
     }
 
-    public String generateTokenForUser(User user) {
-        return generateToken(
-                Map.of(
-                        "userId", user.getId(),
-                        "email", user.getEmail(),
-                        "role", user.getRole()
-                ),
-                user.getEmail()
-        );
-    }
-
+    // Extract username (email)
     public String extractUsername(String token) {
-        return parseToken(token).getBody().getSubject();
+        return extractAllClaims(token).getSubject();
     }
 
+    // Extract role
     public String extractRole(String token) {
-        return (String) parseToken(token).getBody().get("role");
+        return extractAllClaims(token).get("role", String.class);
     }
 
-    public Long extractUserId(String token) {
-        return ((Number) parseToken(token).getBody().get("userId")).longValue();
+    // Validate token
+    public boolean isTokenValid(String token, User user) {
+        String username = extractUsername(token);
+        return username.equals(user.getEmail()) && !isTokenExpired(token);
     }
 
-    public boolean isTokenValid(String token, String username) {
-        return extractUsername(token).equals(username);
+    // =======================
+    // INTERNAL HELPERS
+    // =======================
+
+    private boolean isTokenExpired(String token) {
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    public Jws<Claims> parseToken(String token) {
-        return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
+    private Claims extractAllClaims(String token) {
+        Jws<Claims> jws = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
+
+        // ✅ FIXED FOR TESTS
+        return jws.getBody();
     }
 }
