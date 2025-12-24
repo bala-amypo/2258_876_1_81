@@ -12,6 +12,7 @@ import com.example.demo.service.TransferRecordService;
 
 import java.time.LocalDate;
 import java.util.List;
+@Ser
 
 public class TransferRecordServiceImpl implements TransferRecordService {
 

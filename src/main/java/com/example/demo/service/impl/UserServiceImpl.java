@@ -6,9 +6,11 @@ import com.example.demo.exception.ValidationException;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ THIS WAS MISSING
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
         if (user.getDepartment() == null) {
             throw new ValidationException("Department is required");
         }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
