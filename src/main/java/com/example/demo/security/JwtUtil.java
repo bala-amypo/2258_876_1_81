@@ -4,7 +4,8 @@ import com.example.demo.entity.User;
 import io.jsonwebtoken.*;
 import java.util.Date;
 import java.util.Map;
-
+import org.springframework.stereotype.Component;
+@Component
 public class JwtUtil {
 
     private final String SECRET = "secretKey123456";
