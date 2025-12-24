@@ -9,11 +9,12 @@ import com.example.demo.repository.AssetRepository;
 import com.example.demo.repository.TransferRecordRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.TransferRecordService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-@Ser
 
+@Service
 public class TransferRecordServiceImpl implements TransferRecordService {
 
     private final TransferRecordRepository transferRecordRepository;
