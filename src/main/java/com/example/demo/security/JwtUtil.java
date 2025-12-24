@@ -17,10 +17,9 @@ public class JwtUtil {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     /* =====================================================
-       METHODS REQUIRED BY TEST CASES
+       TOKEN GENERATION
        ===================================================== */
 
-    // generateToken(claims, subject)
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -31,52 +30,63 @@ public class JwtUtil {
                 .compact();
     }
 
-    // generateToken(claims, subject, role)
     public String generateToken(Map<String, Object> claims, String subject, String role) {
         claims.put("role", role);
         return generateToken(claims, subject);
     }
 
-    // parseToken(token)
-    public Claims parseToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();   // JJWT 0.11.5
-    }
+    public String generateTokenForUser(User user) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", user.getEmail());
+        claims.put("role", user.getRole());
+        claims.put("userId", user.getId());
 
-    // extractUserId(token)
-    public String extractUserId(String token) {
-        return parseToken(token).getSubject();
-    }
-
-    // ✅ REQUIRED BY TESTS
-    public boolean isTokenValid(String token, String userId) {
-        Claims claims = parseToken(token);
-        return claims.getSubject().equals(userId)
-                && claims.getExpiration().after(new Date());
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(user.getEmail())
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key)
+                .compact();
     }
 
     /* =====================================================
-       BACKWARD-COMPATIBLE METHODS (USED BY YOUR APP)
+       TOKEN PARSING
        ===================================================== */
 
-    public String generateTokenForUser(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRole());
-        return generateToken(claims, user.getEmail());
+    // IMPORTANT: must return Jws<Claims> for getPayload()
+    public Jws<Claims> parseToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
     }
 
     public String extractUsername(String token) {
-        return extractUserId(token);
+        return parseToken(token).getBody().getSubject();
     }
 
     public String extractRole(String token) {
-        return parseToken(token).get("role", String.class);
+        return parseToken(token).getBody().get("role", String.class);
     }
 
+    public Long extractUserId(String token) {
+        Object id = parseToken(token).getBody().get("userId");
+        return id == null ? null : Long.valueOf(id.toString());
+    }
+
+    /* =====================================================
+       VALIDATION
+       ===================================================== */
+
     public boolean isTokenExpired(String token) {
-        return parseToken(token).getExpiration().before(new Date());
+        return parseToken(token).getBody()
+                .getExpiration()
+                .before(new Date());
+    }
+
+    public boolean isTokenValid(String token, String username) {
+        String tokenUsername = extractUsername(token);
+        return tokenUsername.equals(username) && !isTokenExpired(token);
     }
 }
