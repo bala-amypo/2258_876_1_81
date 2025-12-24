@@ -4,15 +4,14 @@ import com.example.demo.entity.Asset;
 import com.example.demo.entity.LifecycleEvent;
 import com.example.demo.entity.User;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.ValidationException;
 import com.example.demo.repository.AssetRepository;
 import com.example.demo.repository.LifecycleEventRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.LifecycleEventService;
-import jakarta.validation.ValidationException;
-import org.springframework.stereotype.Service;
+
 import java.util.List;
 
-@Service
 public class LifecycleEventServiceImpl implements LifecycleEventService {
 
     private final LifecycleEventRepository lifecycleEventRepository;
@@ -35,26 +34,25 @@ public class LifecycleEventServiceImpl implements LifecycleEventService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (event.getEventType() == null) {
-            throw new ValidationException("Event type must not be null");
+            throw new ValidationException("Event type is required");
         }
         if (event.getEventDescription() == null || event.getEventDescription().isEmpty()) {
-            throw new ValidationException("Event description must not be empty");
+            throw new ValidationException("Event description is required");
         }
 
         event.setAsset(asset);
         event.setPerformedBy(user);
-
         return lifecycleEventRepository.save(event);
     }
 
     @Override
     public List<LifecycleEvent> getEventsForAsset(Long assetId) {
-        return lifecycleEventRepository.findByAssetId(assetId);
+        return lifecycleEventRepository.findByAsset_Id(assetId);
     }
 
     @Override
     public LifecycleEvent getEvent(Long id) {
         return lifecycleEventRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("LifecycleEvent not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Lifecycle event not found"));
     }
 }
