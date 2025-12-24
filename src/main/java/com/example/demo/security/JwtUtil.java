@@ -5,7 +5,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,10 @@ import java.util.Map;
 public class JwtUtil {
 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    // ✅ REQUIRED for JJWT 0.12.x (must be at least 256 bits)
+    private static final SecretKey KEY =
+            Keys.hmacShaKeyFor("my-super-secret-key-my-super-secret-key-123456".getBytes());
 
     /* =========================
        CORE TOKEN GENERATION
@@ -22,11 +25,11 @@ public class JwtUtil {
 
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(key)
+                .claims(claims)               // NEW API
+                .subject(subject)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(KEY)                // NEW API
                 .compact();
     }
 
@@ -42,31 +45,36 @@ public class JwtUtil {
         return generateToken(claims, user.getEmail());
     }
 
-    // MUST return Jws<Claims>
+    // ✅ MUST return Jws<Claims> AND support getPayload()
     public Jws<Claims> parseToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
+        return Jwts.parser()
+                .verifyWith(KEY)       // ✅ JJWT 0.12.x API
                 .build()
-                .parseClaimsJws(token);
+                .parseSignedClaims(token);
     }
 
+    // =========================
     // Used by tests
+    // =========================
+
     public String extractUsername(String token) {
-        return parseToken(token).getBody().getSubject();
+        return parseToken(token).getPayload().getSubject();
     }
 
-    // Used by tests (MUST return Long)
     public Long extractUserId(String token) {
-        Object id = parseToken(token).getBody().get("userId");
+        Object id = parseToken(token).getPayload().get("userId");
         return id == null ? null : Long.valueOf(id.toString());
     }
 
     public String extractRole(String token) {
-        return parseToken(token).getBody().get("role", String.class);
+        return (String) parseToken(token).getPayload().get("role");
     }
 
     public boolean isTokenExpired(String token) {
-        return parseToken(token).getBody().getExpiration().before(new Date());
+        return parseToken(token)
+                .getPayload()
+                .getExpiration()
+                .before(new Date());
     }
 
     // REQUIRED BY TESTS
