@@ -43,7 +43,7 @@ public class JwtUtil {
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
-                .getBody(); // ✅ JJWT 0.11.5
+                .getBody();   // JJWT 0.11.5
     }
 
     // extractUserId(token)
@@ -51,18 +51,23 @@ public class JwtUtil {
         return parseToken(token).getSubject();
     }
 
+    // ✅ REQUIRED BY TESTS
+    public boolean isTokenValid(String token, String userId) {
+        Claims claims = parseToken(token);
+        return claims.getSubject().equals(userId)
+                && claims.getExpiration().after(new Date());
+    }
+
     /* =====================================================
        BACKWARD-COMPATIBLE METHODS (USED BY YOUR APP)
        ===================================================== */
 
-    // Used by AuthController
     public String generateTokenForUser(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getRole());
         return generateToken(claims, user.getEmail());
     }
 
-    // Used by JwtAuthenticationFilter
     public String extractUsername(String token) {
         return extractUserId(token);
     }
