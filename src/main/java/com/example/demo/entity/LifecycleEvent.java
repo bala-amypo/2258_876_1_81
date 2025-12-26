@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,7 +29,7 @@ public class LifecycleEvent {
     @JoinColumn(name = "performed_by", nullable = false)
     private User performedBy;
 
-    // ✅ No-arg constructor (required by JPA)
+    // ✅ No-arg constructor
     public LifecycleEvent() {
     }
 
@@ -42,6 +43,14 @@ public class LifecycleEvent {
         this.eventDescription = eventDescription;
         this.eventDate = eventDate;
         this.performedBy = performedBy;
+    }
+
+    // ✅ THIS FIXES YOUR TEST FAILURE
+    @PrePersist
+    public void prePersist() {
+        if (this.eventDate == null) {
+            this.eventDate = LocalDateTime.now();
+        }
     }
 
     // ================= GETTERS & SETTERS =================
