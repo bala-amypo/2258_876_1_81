@@ -1,15 +1,3 @@
-package com.example.demo.service.impl;
-
-import com.example.demo.entity.User;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.exception.ValidationException;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -37,12 +25,10 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("Department is required");
         }
 
-        // ✅ DEFAULT ROLE
-        if (user.getRole() == null) {
+        // ✅ DEFAULT ONLY IF NOT PROVIDED
+        if (user.getRole() == null || user.getRole().isBlank()) {
             user.setRole("USER");
         }
-
-        // ❌ DO NOT read role from request body blindly
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -57,5 +43,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    // Needed for login
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
