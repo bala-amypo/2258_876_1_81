@@ -1,9 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +13,9 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    // ✅ 10 minutes – test requirement
-    private static final long EXPIRATION_TIME = 1000 * 60 * 10;
+    private static final long EXPIRATION_TIME = 1000 * 60 * 10; // 10 minutes
 
-    // ✅ MUST be SecretKey (NOT java.security.Key)
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-    /* ================= TOKEN GENERATION ================= */
 
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -41,30 +35,29 @@ public class JwtUtil {
         return generateToken(claims, user.getEmail());
     }
 
-    /* ================= TOKEN PARSING ================= */
-
-    public Claims extractAllClaims(String token) {
+    // ✅ REQUIRED BY TESTS
+    public Jws<Claims> parseToken(String token) {
         return Jwts.parser()
-                .verifyWith(key)   // ✅ NOW MATCHES SecretKey
+                .verifyWith(key)
                 .build()
-                .parseSignedClaims(token)
-                .getPayload();
+                .parseSignedClaims(token);
     }
 
     public String extractUsername(String token) {
-        return extractAllClaims(token).getSubject();
+        return parseToken(token).getPayload().getSubject();
     }
 
     public Long extractUserId(String token) {
-        return extractAllClaims(token).get("userId", Long.class);
+        return parseToken(token).getPayload().get("userId", Long.class);
     }
 
     public String extractRole(String token) {
-        return extractAllClaims(token).get("role", String.class);
+        return parseToken(token).getPayload().get("role", String.class);
     }
 
     public boolean isTokenExpired(String token) {
-        return extractAllClaims(token)
+        return parseToken(token)
+                .getPayload()
                 .getExpiration()
                 .before(new Date());
     }

@@ -40,21 +40,24 @@ public class User {
     @OneToMany(mappedBy = "approvedBy")
     private List<DisposalRecord> disposalRecords;
 
-    /* ================= CONSTRUCTORS ================= */
+    /* ===================== CONSTRUCTORS ===================== */
 
-    // REQUIRED by JPA
+    // Required by JPA
     public User() {
     }
 
-    // REQUIRED by TESTS (SHORT)
-    public User(String fullName, String email, String department, String role) {
+    // REQUIRED BY TEST CASES (4-arg constructor)
+    public User(String fullName,
+                String email,
+                String department,
+                String role) {
         this.fullName = fullName;
         this.email = email;
         this.department = department;
         this.role = role;
     }
 
-    // REQUIRED by TESTS (FULL)
+    // REQUIRED BY SOME TESTS (full constructor)
     public User(Long id,
                 String fullName,
                 String email,
@@ -71,7 +74,7 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    /* ================= DEFAULTS ================= */
+    /* ===================== DEFAULT VALUES ===================== */
 
     @PrePersist
     public void prePersist() {
@@ -83,21 +86,93 @@ public class User {
         }
     }
 
-    /* ================= GETTERS & SETTERS ================= */
+    /* ===================== GETTERS & SETTERS ===================== */
 
-    public Long getId() { return id; }
-    public String getFullName() { return fullName; }
-    public String getEmail() { return email; }
-    public String getDepartment() { return department; }
-    public String getRole() { return role; }
-    public String getPassword() { return password; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public Long getId() {
+        return id;
+    }
 
-    public void setId(Long id) { this.id = id; }
-    public void setFullName(String fullName) { this.fullName = fullName; }
-    public void setEmail(String email) { this.email = email; }
-    public void setDepartment(String department) { this.department = department; }
-    public void setRole(String role) { this.role = role; }
-    public void setPassword(String password) { this.password = password; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public List<Asset> getAssets() {
+        return assets;
+    }
+
+    public List<LifecycleEvent> getLifecycleEvents() {
+        return lifecycleEvents;
+    }
+
+    public List<TransferRecord> getTransferRecords() {
+        return transferRecords;
+    }
+
+    public List<DisposalRecord> getDisposalRecords() {
+        return disposalRecords;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setAssets(List<Asset> assets) {
+        this.assets = assets;
+    }
+
+    public void setLifecycleEvents(List<LifecycleEvent> lifecycleEvents) {
+        this.lifecycleEvents = lifecycleEvents;
+    }
+
+    public void setTransferRecords(List<TransferRecord> transferRecords) {
+        this.transferRecords = transferRecords;
+    }
+
+    public void setDisposalRecords(List<DisposalRecord> disposalRecords) {
+        this.disposalRecords = disposalRecords;
+    }
 }
