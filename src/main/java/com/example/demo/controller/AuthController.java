@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UserResponse;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -27,18 +28,26 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ USER REGISTRATION ONLY (NO ROLE FROM CLIENT)
+    // ✅ CLEAN REGISTRATION RESPONSE (NO RELATIONS, NO PASSWORD)
     @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest request) {
+    public UserResponse register(@RequestBody RegisterRequest request) {
 
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setDepartment(request.getDepartment());
         user.setPassword(request.getPassword());
-        // ❌ DO NOT SET ROLE HERE
 
-        return userService.registerUser(user);
+        User saved = userService.registerUser(user);
+
+        return new UserResponse(
+                saved.getId(),
+                saved.getFullName(),
+                saved.getEmail(),
+                saved.getDepartment(),
+                saved.getRole(),
+                saved.getCreatedAt()
+        );
     }
 
     @PostMapping("/login")
