@@ -1,11 +1,13 @@
 package com.example.demo.security;
 
 import com.example.demo.entity.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +15,13 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    // 10 MINUTES (TEST EXPECTATION)
+    // ✅ 10 minutes – test requirement
     private static final long EXPIRATION_TIME = 1000 * 60 * 10;
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    // ✅ MUST be SecretKey (NOT java.security.Key)
+    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    /* ================= TOKEN GENERATION ================= */
 
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -36,9 +41,11 @@ public class JwtUtil {
         return generateToken(claims, user.getEmail());
     }
 
+    /* ================= TOKEN PARSING ================= */
+
     public Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(key)   // ✅ NOW MATCHES SecretKey
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
@@ -57,10 +64,13 @@ public class JwtUtil {
     }
 
     public boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
+        return extractAllClaims(token)
+                .getExpiration()
+                .before(new Date());
     }
 
     public boolean isTokenValid(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
+        return extractUsername(token).equals(username)
+                && !isTokenExpired(token);
     }
 }
