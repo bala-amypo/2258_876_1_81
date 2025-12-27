@@ -27,7 +27,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ EXTERNAL ROLE REGISTRATION ENABLED
+    // ✅ USER REGISTRATION ONLY (AS REQUIRED BY TESTS)
     @PostMapping("/register")
     public User register(@RequestBody RegisterRequest request) {
 
@@ -36,7 +36,7 @@ public class AuthController {
         user.setEmail(request.getEmail());
         user.setDepartment(request.getDepartment());
         user.setPassword(request.getPassword());
-        user.setRole(request.getRole()); // ✅ ROLE COMES FROM CLIENT
+        // ❌ DO NOT SET ROLE HERE
 
         return userService.registerUser(user);
     }
