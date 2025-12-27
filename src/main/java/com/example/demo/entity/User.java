@@ -40,13 +40,11 @@ public class User {
     @OneToMany(mappedBy = "approvedBy")
     private List<DisposalRecord> disposalRecords;
 
-    /* ===================== CONSTRUCTORS ===================== */
-
-    // Required by JPA
+    
     public User() {
     }
 
-    // REQUIRED BY TEST CASES (4-arg constructor)
+
     public User(String fullName,
                 String email,
                 String department,
@@ -57,7 +55,6 @@ public class User {
         this.role = role;
     }
 
-    // REQUIRED BY SOME TESTS (full constructor)
     public User(Long id,
                 String fullName,
                 String email,
