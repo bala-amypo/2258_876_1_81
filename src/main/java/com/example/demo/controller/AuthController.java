@@ -27,7 +27,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ USER REGISTRATION ONLY (AS REQUIRED BY TESTS)
+    // ✅ USER REGISTRATION ONLY (NO ROLE FROM CLIENT)
     @PostMapping("/register")
     public User register(@RequestBody RegisterRequest request) {
 

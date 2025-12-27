@@ -10,19 +10,26 @@ public class RegisterRequest {
     public RegisterRequest() {
     }
 
-    // ✅ REQUIRED BY TESTS
-    public RegisterRequest(String fullName,
-                           String email,
-                           String department,
-                           String password) {
+    public RegisterRequest(String fullName, String email, String department, String password) {
         this.fullName = fullName;
         this.email = email;
         this.department = department;
         this.password = password;
     }
 
-    public String getFullName() { return fullName; }
-    public String getEmail() { return email; }
-    public String getDepartment() { return department; }
-    public String getPassword() { return password; }
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
