@@ -6,45 +6,33 @@ public class RegisterRequest {
     private String email;
     private String department;
     private String password;
-    private String role;   // ✅ ALLOW ROLE
+
+    // ✅ REQUIRED by tests
+    public RegisterRequest() {
+    }
+
+    // ✅ REQUIRED by tests
+    public RegisterRequest(String fullName, String email,
+                           String department, String password) {
+        this.fullName = fullName;
+        this.email = email;
+        this.department = department;
+        this.password = password;
+    }
 
     public String getFullName() {
         return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
     public String getPassword() {
         return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

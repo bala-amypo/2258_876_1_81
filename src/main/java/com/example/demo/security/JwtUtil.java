@@ -13,10 +13,15 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 10; // 10 minutes
+    // ✅ 10 minutes
+    private static final long EXPIRATION_TIME = 1000 * 60 * 10;
 
+    // ✅ MUST be SecretKey for jjwt 0.12.x
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
+    // ===============================
+    // TOKEN GENERATION
+    // ===============================
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .claims(claims)
@@ -35,10 +40,12 @@ public class JwtUtil {
         return generateToken(claims, user.getEmail());
     }
 
-    // ✅ REQUIRED BY TESTS
+    // ===============================
+    // REQUIRED BY TESTS
+    // ===============================
     public Jws<Claims> parseToken(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(key)   // ✅ SecretKey
                 .build()
                 .parseSignedClaims(token);
     }
@@ -47,17 +54,17 @@ public class JwtUtil {
         return parseToken(token).getPayload().getSubject();
     }
 
-    public Long extractUserId(String token) {
-        return parseToken(token).getPayload().get("userId", Long.class);
-    }
-
     public String extractRole(String token) {
         return parseToken(token).getPayload().get("role", String.class);
     }
 
+    public Long extractUserId(String token) {
+        Object id = parseToken(token).getPayload().get("userId");
+        return id == null ? null : Long.valueOf(id.toString());
+    }
+
     public boolean isTokenExpired(String token) {
-        return parseToken(token)
-                .getPayload()
+        return parseToken(token).getPayload()
                 .getExpiration()
                 .before(new Date());
     }
