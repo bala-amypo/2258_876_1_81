@@ -16,6 +16,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // ✅ ORDER MATTERS (tests)
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("Department is required");
         }
 
-        // IMPORTANT: do NOT override ADMIN
+        // ✅ DEFAULT ROLE
         if (user.getRole() == null) {
             user.setRole("USER");
         }
