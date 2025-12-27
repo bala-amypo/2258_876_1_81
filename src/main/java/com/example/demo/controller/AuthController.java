@@ -28,7 +28,6 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ CLEAN REGISTRATION RESPONSE (NO RELATIONS, NO PASSWORD)
     @PostMapping("/register")
     public UserResponse register(@RequestBody RegisterRequest request) {
 

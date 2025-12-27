@@ -5,11 +5,9 @@ public class LoginRequest {
     private String email;
     private String password;
 
-    // ✅ REQUIRED
     public LoginRequest() {
     }
 
-    // ✅ REQUIRED
     public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;

@@ -28,11 +28,9 @@ public class TransferRecord {
     @JoinColumn(name = "approved_by", nullable = false)
     private User approvedBy;
 
-    // ✅ No-arg constructor (REQUIRED by JPA)
     public TransferRecord() {
     }
 
-    // ✅ All-args constructor
     public TransferRecord(Long id, Asset asset, String fromDepartment,
                           String toDepartment, LocalDate transferDate,
                           User approvedBy) {
@@ -44,7 +42,6 @@ public class TransferRecord {
         this.approvedBy = approvedBy;
     }
 
-    // ================== GETTERS & SETTERS ==================
 
     public Long getId() {
         return id;

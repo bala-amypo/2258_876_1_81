@@ -29,7 +29,7 @@ public class SwaggerConfig {
                         new Components()
                                 .addSecuritySchemes("bearerAuth", bearerAuth)
                 )
-                // 🔑 Apply security globally
+                
                 .addSecurityItem(
                         new SecurityRequirement().addList("bearerAuth")
                 );

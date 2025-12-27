@@ -29,11 +29,11 @@ public class LifecycleEvent {
     @JoinColumn(name = "performed_by", nullable = false)
     private User performedBy;
 
-    // ✅ No-arg constructor
+    
     public LifecycleEvent() {
     }
 
-    // ✅ All-args constructor
+    
     public LifecycleEvent(Long id, Asset asset, String eventType,
                           String eventDescription, LocalDateTime eventDate,
                           User performedBy) {
@@ -45,7 +45,6 @@ public class LifecycleEvent {
         this.performedBy = performedBy;
     }
 
-    // ✅ THIS FIXES YOUR TEST FAILURE
     @PrePersist
     public void prePersist() {
         if (this.eventDate == null) {
@@ -53,7 +52,6 @@ public class LifecycleEvent {
         }
     }
 
-    // ================= GETTERS & SETTERS =================
 
     public Long getId() {
         return id;
