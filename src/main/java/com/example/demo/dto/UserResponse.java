@@ -22,10 +22,22 @@ public class UserResponse {
         this.createdAt = createdAt;
     }
 
-    public Long getId() { return id; }
-    public String getFullName() { return fullName; }
-    public String getEmail() { return email; }
-    public String getDepartment() { return department; }
-    public String getRole() { return role; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public Long getId() { 
+        return id;
+    }
+    public String getFullName() { 
+        return fullName; 
+    }
+    public String getEmail() { 
+        return email; 
+    }
+    public String getDepartment() { 
+        return department; 
+    }
+    public String getRole() { 
+        return role; 
+    }
+    public LocalDateTime getCreatedAt() { 
+        return createdAt; 
+    }
 }
