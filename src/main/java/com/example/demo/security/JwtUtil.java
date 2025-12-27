@@ -13,9 +13,9 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60; 
 
-    // ✅ MUST be SecretKey
+
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String generateToken(Map<String, Object> claims, String subject) {
@@ -36,7 +36,6 @@ public class JwtUtil {
         return generateToken(claims, user.getEmail());
     }
 
-    // ✅ REQUIRED BY TESTS
     public Jws<Claims> parseToken(String token) {
         return Jwts.parser()
                 .verifyWith(key)

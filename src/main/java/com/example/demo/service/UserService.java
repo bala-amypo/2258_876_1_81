@@ -11,6 +11,5 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    // REQUIRED BY TESTS & AUTH
     User getByEmail(String email);
 }

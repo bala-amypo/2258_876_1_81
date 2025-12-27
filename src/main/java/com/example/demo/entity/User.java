@@ -74,7 +74,6 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    /* ===================== DEFAULT VALUES ===================== */
 
     @PrePersist
     public void prePersist() {
@@ -85,8 +84,6 @@ public class User {
             this.createdAt = LocalDateTime.now();
         }
     }
-
-    /* ===================== GETTERS & SETTERS ===================== */
 
     public Long getId() {
         return id;
