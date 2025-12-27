@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // ✅ THIS WAS MISSING
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -24,15 +24,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
+
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ValidationException("Email already in use");
         }
+
         if (user.getPassword() == null || user.getPassword().length() < 8) {
             throw new ValidationException("Password must be at least 8 characters");
         }
+
         if (user.getDepartment() == null) {
             throw new ValidationException("Department is required");
         }
+
+        // ✅ DEFAULT ROLE
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
+
+        // ❌ DO NOT read role from request body blindly
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
