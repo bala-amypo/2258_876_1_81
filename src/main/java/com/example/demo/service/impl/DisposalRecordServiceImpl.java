@@ -33,9 +33,6 @@ public class DisposalRecordServiceImpl implements DisposalRecordService {
         this.userRepository = userRepository;
     }
 
-    // ============================================================
-    // 🔥 METHOD REQUIRED BY TEST CASES (ENTITY-BASED)
-    // ============================================================
     @Override
     public DisposalRecord createDisposal(Long assetId, DisposalRecord record) {
 
@@ -52,9 +49,6 @@ public class DisposalRecordServiceImpl implements DisposalRecordService {
         return createDisposal(assetId, request);
     }
 
-    // ============================================================
-    // ✅ DTO-BASED METHOD (USED BY CONTROLLER)
-    // ============================================================
     public DisposalRecord createDisposal(Long assetId, DisposalRequest request) {
 
         if (request.getApprovedByUserId() == null) {
@@ -92,9 +86,6 @@ public class DisposalRecordServiceImpl implements DisposalRecordService {
         return saved;
     }
 
-    // ============================================================
-    // READ METHODS
-    // ============================================================
     @Override
     public DisposalRecord getDisposal(Long id) {
         return disposalRecordRepository.findById(id)

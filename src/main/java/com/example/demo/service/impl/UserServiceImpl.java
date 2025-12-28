@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("Department is required");
         }
 
-        // Role defaults via @PrePersist
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }

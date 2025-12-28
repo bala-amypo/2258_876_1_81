@@ -28,7 +28,6 @@ public class User {
     private String password;
     private LocalDateTime createdAt;
 
-    // ---------- RELATIONSHIPS ----------
 
     @OneToMany(mappedBy = "currentHolder")
     @JsonManagedReference
@@ -46,13 +45,9 @@ public class User {
     @JsonIgnore
     private List<DisposalRecord> disposalRecords;
 
-    // ---------- CONSTRUCTORS (REQUIRED FOR TESTS) ----------
-
-    // ✅ REQUIRED by JPA + tests
     public User() {
     }
 
-    // ✅ REQUIRED by tests
     public User(String fullName, String email, String department, String role) {
         this.fullName = fullName;
         this.email = email;
@@ -60,7 +55,6 @@ public class User {
         this.role = role;
     }
 
-    // ✅ REQUIRED by tests
     public User(Long id,
                 String fullName,
                 String email,
@@ -77,7 +71,6 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    // ---------- LIFECYCLE ----------
 
     @PrePersist
     public void prePersist() {
@@ -89,7 +82,6 @@ public class User {
         }
     }
 
-    // ---------- GETTERS & SETTERS ----------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

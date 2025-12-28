@@ -5,7 +5,6 @@ import java.util.List;
 
 public interface DisposalRecordService {
 
-    // ✅ REQUIRED BY TEST CASES
     DisposalRecord createDisposal(Long assetId, DisposalRecord record);
 
     DisposalRecord getDisposal(Long id);
