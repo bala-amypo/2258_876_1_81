@@ -9,6 +9,7 @@ import com.example.demo.repository.AssetRepository;
 import com.example.demo.repository.DisposalRecordRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.DisposalRecordService;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,9 +22,11 @@ public class DisposalRecordServiceImpl implements DisposalRecordService {
     private final AssetRepository assetRepository;
     private final UserRepository userRepository;
 
-    public DisposalRecordServiceImpl(DisposalRecordRepository disposalRecordRepository,
-                                     AssetRepository assetRepository,
-                                     UserRepository userRepository) {
+    public DisposalRecordServiceImpl(
+            DisposalRecordRepository disposalRecordRepository,
+            AssetRepository assetRepository,
+            UserRepository userRepository) {
+
         this.disposalRecordRepository = disposalRecordRepository;
         this.assetRepository = assetRepository;
         this.userRepository = userRepository;
@@ -31,25 +34,35 @@ public class DisposalRecordServiceImpl implements DisposalRecordService {
 
     @Override
     public DisposalRecord createDisposal(Long assetId, DisposalRecord disposal) {
+
         Asset asset = assetRepository.findById(assetId)
                 .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
+
+        if (disposal.getApprovedBy() == null || disposal.getApprovedBy().getId() == null) {
+            throw new ValidationException("Approver must be provided");
+        }
 
         User approver = userRepository.findById(disposal.getApprovedBy().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (!"ADMIN".equals(approver.getRole())) {
+        if (!"ADMIN".equalsIgnoreCase(approver.getRole())) {
             throw new ValidationException("Approver must be ADMIN");
         }
-        if (disposal.getDisposalDate().isAfter(LocalDate.now())) {
+
+        if (disposal.getDisposalDate() != null &&
+                disposal.getDisposalDate().isAfter(LocalDate.now())) {
             throw new ValidationException("Disposal date cannot be in the future");
         }
+
+        disposal.setAsset(asset);
+        disposal.setApprovedBy(approver);
+
+        DisposalRecord saved = disposalRecordRepository.save(disposal);
 
         asset.setStatus("DISPOSED");
         assetRepository.save(asset);
 
-        disposal.setAsset(asset);
-        disposal.setApprovedBy(approver);
-        return disposalRecordRepository.save(disposal);
+        return saved;
     }
 
     @Override
