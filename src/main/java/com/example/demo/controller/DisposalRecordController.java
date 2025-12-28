@@ -1,77 +1,38 @@
-// package com.example.demo.controller;
-
-// import com.example.demo.entity.DisposalRecord;
-// import com.example.demo.service.DisposalRecordService;
-// import org.springframework.security.access.prepost.PreAuthorize;
-// import org.springframework.web.bind.annotation.*;
-
-// import java.util.List;
-
-// @RestController
-// @RequestMapping("/api/disposals")
-// public class DisposalRecordController {
-
-//     private final DisposalRecordService disposalRecordService;
-
-//     public DisposalRecordController(DisposalRecordService disposalRecordService) {
-//         this.disposalRecordService = disposalRecordService;
-//     }
-
-//     // 🔐 ADMIN ONLY
-//     @PreAuthorize("hasRole('ADMIN')")
-//     @PostMapping("/{assetId}")
-//     public DisposalRecord create(@PathVariable Long assetId,
-//                                  @RequestBody DisposalRecord record) {
-//         return disposalRecordService.createDisposal(assetId, record);
-//     }
-
-//     @GetMapping
-//     public List<DisposalRecord> getAll() {
-//         return disposalRecordService.getAllDisposals();
-//     }
-
-//     @GetMapping("/{id}")
-//     public DisposalRecord getById(@PathVariable Long id) {
-//         return disposalRecordService.getDisposal(id);
-//     }
-// }
-
 package com.example.demo.controller;
 
-import com.example.demo.dto.DisposalRequestDTO;
 import com.example.demo.entity.DisposalRecord;
-import com.example.demo.entity.User;
 import com.example.demo.service.DisposalRecordService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/disposals")
-@Tag(name = "Disposals")
 public class DisposalRecordController {
-    private final DisposalRecordService disposalService;
 
-    public DisposalRecordController(DisposalRecordService disposalService) {
-        this.disposalService = disposalService;
+    private final DisposalRecordService disposalRecordService;
+
+    public DisposalRecordController(DisposalRecordService disposalRecordService) {
+        this.disposalRecordService = disposalRecordService;
     }
 
+    // 🔐 ADMIN ONLY
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{assetId}")
-    public ResponseEntity<DisposalRecord> create(@PathVariable Long assetId, @RequestBody DisposalRequestDTO dto) {
-        DisposalRecord record = new DisposalRecord();
-        record.setDisposalMethod(dto.getDisposalMethod());
-        record.setDisposalDate(dto.getDisposalDate());
-        record.setNotes(dto.getNotes());
-        
-        User approver = new User();
-        approver.setId(dto.getApprovedByUserId());
-        record.setApprovedBy(approver);
-        
-        return ResponseEntity.ok(disposalService.createDisposal(assetId, record));
+    public DisposalRecord create(@PathVariable Long assetId,
+                                 @RequestBody DisposalRecord record) {
+        return disposalRecordService.createDisposal(assetId, record);
+    }
+
+    @GetMapping
+    public List<DisposalRecord> getAll() {
+        return disposalRecordService.getAllDisposals();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DisposalRecord> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(disposalService.getDisposal(id));
+    public DisposalRecord getById(@PathVariable Long id) {
+        return disposalRecordService.getDisposal(id);
     }
 }
+
