@@ -64,6 +64,7 @@
 //     }
 // }
 package com.example.demo.service.impl;
+
 import com.example.demo.entity.*;
 import com.example.demo.exception.*;
 import com.example.demo.repository.*;
@@ -78,6 +79,7 @@ public class TransferRecordServiceImpl implements TransferRecordService {
     private final AssetRepository assetRepository;
     private final UserRepository userRepository;
 
+    // Requirement: (TransferRecordRepository, AssetRepository, UserRepository)
     public TransferRecordServiceImpl(TransferRecordRepository transferRecordRepository, AssetRepository assetRepository, UserRepository userRepository) {
         this.transferRecordRepository = transferRecordRepository;
         this.assetRepository = assetRepository;
@@ -87,14 +89,14 @@ public class TransferRecordServiceImpl implements TransferRecordService {
     @Override
     public TransferRecord createTransfer(Long assetId, TransferRecord record) {
         Asset asset = assetRepository.findById(assetId).orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
-        User approver = userRepository.findById(record.getApprovedBy().getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        
-        if (!"ADMIN".equals(approver.getRole())) throw new ValidationException("ADMIN");
+        User admin = userRepository.findById(record.getApprovedBy().getId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!"ADMIN".equals(admin.getRole())) throw new ValidationException("ADMIN");
         if (record.getFromDepartment().equals(record.getToDepartment())) throw new ValidationException("departments must differ");
         if (record.getTransferDate().isAfter(LocalDate.now())) throw new ValidationException("Transfer date cannot be in the future");
-        
+
         record.setAsset(asset);
-        record.setApprovedBy(approver);
+        record.setApprovedBy(admin);
         return transferRecordRepository.save(record);
     }
 
@@ -102,7 +104,7 @@ public class TransferRecordServiceImpl implements TransferRecordService {
     public List<TransferRecord> getTransfersForAsset(Long assetId) {
         return transferRecordRepository.findByAsset_Id(assetId);
     }
-    
+
     @Override
     public TransferRecord getTransfer(Long id) {
         return transferRecordRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Transfer record not found"));
