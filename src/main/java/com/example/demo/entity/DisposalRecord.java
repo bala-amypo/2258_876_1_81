@@ -98,14 +98,13 @@
 // }
 
 // }
+
+
 package com.example.demo.entity;
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity @Table(name = "disposal_records")
-@Data @NoArgsConstructor @AllArgsConstructor
 public class DisposalRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -115,11 +114,11 @@ public class DisposalRecord {
     private LocalDate disposalDate;
     @ManyToOne @JoinColumn(name = "user_id")
     private User approvedBy;
-    private String notes;
-    private LocalDateTime createdAt;
 
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) createdAt = LocalDateTime.now();
-    }
+    public void setAsset(Asset asset) { this.asset = asset; }
+    public void setApprovedBy(User user) { this.approvedBy = user; }
+    public User getApprovedBy() { return approvedBy; }
+    public LocalDate getDisposalDate() { return disposalDate; }
+    public void setDisposalDate(LocalDate d) { this.disposalDate = d; }
+    public void setDisposalMethod(String m) { this.disposalMethod = m; }
 }

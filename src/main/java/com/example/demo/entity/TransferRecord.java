@@ -91,13 +91,13 @@
 //         this.approvedBy = approvedBy;
 //     }
 // }
+
+
 package com.example.demo.entity;
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDate;
 
 @Entity @Table(name = "transfer_records")
-@Data @NoArgsConstructor @AllArgsConstructor
 public class TransferRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -108,4 +108,14 @@ public class TransferRecord {
     private LocalDate transferDate;
     @ManyToOne @JoinColumn(name = "user_id")
     private User approvedBy;
+
+    public void setAsset(Asset asset) { this.asset = asset; }
+    public void setApprovedBy(User user) { this.approvedBy = user; }
+    public User getApprovedBy() { return approvedBy; }
+    public String getFromDepartment() { return fromDepartment; }
+    public void setFromDepartment(String f) { this.fromDepartment = f; }
+    public String getToDepartment() { return toDepartment; }
+    public void setToDepartment(String t) { this.toDepartment = t; }
+    public LocalDate getTransferDate() { return transferDate; }
+    public void setTransferDate(LocalDate d) { this.transferDate = d; }
 }

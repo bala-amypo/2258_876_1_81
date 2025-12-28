@@ -101,13 +101,13 @@
 //         this.performedBy = performedBy;
 //     }
 // }
+
+
 package com.example.demo.entity;
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity @Table(name = "lifecycle_events")
-@Data @NoArgsConstructor @AllArgsConstructor
 public class LifecycleEvent {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -119,8 +119,11 @@ public class LifecycleEvent {
     @ManyToOne @JoinColumn(name = "user_id")
     private User performedBy;
 
-    @PrePersist
-    public void prePersist() {
-        if (eventDate == null) eventDate = LocalDateTime.now();
-    }
+    public void setAsset(Asset asset) { this.asset = asset; }
+    public Asset getAsset() { return asset; }
+    public void setPerformedBy(User user) { this.performedBy = user; }
+    public User getPerformedBy() { return performedBy; }
+    public String getEventType() { return eventType; }
+    public void setEventType(String type) { this.eventType = type; }
+    public void setEventDescription(String desc) { this.eventDescription = desc; }
 }
