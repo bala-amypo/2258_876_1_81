@@ -6,7 +6,7 @@ import com.example.demo.dto.UserResponse;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -29,32 +29,16 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ PUBLIC USER REGISTRATION
-    @PostMapping("/register/user")
-    public UserResponse registerUser(@RequestBody RegisterRequest request) {
+    // ✅ SINGLE REGISTER (DEFAULT ROLE = USER)
+    @PostMapping("/register")
+    public UserResponse register(@RequestBody RegisterRequest request) {
 
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setDepartment(request.getDepartment());
         user.setPassword(request.getPassword());
-        user.setRole("USER");
-
-        User saved = userService.registerUser(user);
-        return mapToResponse(saved);
-    }
-
-    // ✅ ADMIN REGISTRATION (ADMIN ONLY)
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/register/admin")
-    public UserResponse registerAdmin(@RequestBody RegisterRequest request) {
-
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setDepartment(request.getDepartment());
-        user.setPassword(request.getPassword());
-        user.setRole("ADMIN");
+        // ❗ role NOT set here → defaults to USER (@PrePersist)
 
         User saved = userService.registerUser(user);
         return mapToResponse(saved);
@@ -77,7 +61,7 @@ public class AuthController {
         return Map.of("token", token);
     }
 
-    // 🔹 Common mapper
+    // 🔹 Mapper
     private UserResponse mapToResponse(User saved) {
         return new UserResponse(
                 saved.getId(),
@@ -89,4 +73,3 @@ public class AuthController {
         );
     }
 }
-
