@@ -17,7 +17,6 @@ public class LifecycleEventController {
         this.lifecycleEventService = lifecycleEventService;
     }
 
-    // 👥 USER + ADMIN
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/{assetId}/{userId}")
     public LifecycleEvent log(@PathVariable Long assetId,

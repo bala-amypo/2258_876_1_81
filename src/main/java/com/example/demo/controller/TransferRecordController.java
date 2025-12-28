@@ -17,7 +17,6 @@ public class TransferRecordController {
         this.transferRecordService = transferRecordService;
     }
 
-    // 🔐 ADMIN ONLY
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{assetId}")
     public TransferRecord create(@PathVariable Long assetId,

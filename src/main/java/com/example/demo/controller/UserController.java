@@ -18,7 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    // 🔐 ADMIN ONLY
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<UserDTO> getAll() {
@@ -28,7 +27,6 @@ public class UserController {
                 .toList();
     }
 
-    // 🔐 ADMIN ONLY
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
     public UserDTO getById(@PathVariable Long id) {

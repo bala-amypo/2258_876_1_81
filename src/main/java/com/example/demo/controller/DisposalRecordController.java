@@ -19,14 +19,13 @@ public class DisposalRecordController {
         this.disposalRecordService = disposalRecordService;
     }
 
-    // 🔐 ADMIN ONLY
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{assetId}")
     public DisposalRecord create(
             @PathVariable Long assetId,
             @RequestBody DisposalRequest request
     ) {
-        // 🔁 DTO → ENTITY conversion (MANDATORY)
+        
         DisposalRecord record = new DisposalRecord();
         record.setDisposalMethod(request.getDisposalMethod());
         record.setDisposalDate(request.getDisposalDate());

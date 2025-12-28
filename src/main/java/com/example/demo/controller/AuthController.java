@@ -29,7 +29,6 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // ✅ SINGLE REGISTER (DEFAULT ROLE = USER)
     @PostMapping("/register")
     public UserResponse register(@RequestBody RegisterRequest request) {
 
@@ -44,7 +43,7 @@ public class AuthController {
         return mapToResponse(saved);
     }
 
-    // ✅ LOGIN
+    
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody LoginRequest request) {
 
@@ -61,7 +60,7 @@ public class AuthController {
         return Map.of("token", token);
     }
 
-    // 🔹 Mapper
+    
     private UserResponse mapToResponse(User saved) {
         return new UserResponse(
                 saved.getId(),
