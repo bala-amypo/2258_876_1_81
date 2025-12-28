@@ -7,95 +7,58 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "disposal_records")
 public class DisposalRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    // ✅ Must NOT be null
+    @OneToOne(optional = false)
+    @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
 
     private String disposalMethod;
+
     private LocalDate disposalDate;
 
-    @ManyToOne
+    // ✅ Must NOT be null (FIX FOR YOUR ERROR)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "approved_by_id", nullable = false)
     private User approvedBy;
 
     private String notes;
+
     private LocalDateTime createdAt;
 
     public DisposalRecord() {}
 
-    public DisposalRecord(Long id, Asset asset, String disposalMethod, LocalDate disposalDate,
-                          User approvedBy, String notes, LocalDateTime createdAt) {
-        this.id = id;
-        this.asset = asset;
-        this.disposalMethod = disposalMethod;
-        this.disposalDate = disposalDate;
-        this.approvedBy = approvedBy;
-        this.notes = notes;
-        this.createdAt = createdAt;
-    }
-
     @PrePersist
     public void prePersist() {
-        if (createdAt == null) createdAt = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
     }
 
-public Long getId() {
-    return id;
-}
+    // -------- getters & setters --------
 
-public void setId(Long id) {
-    this.id = id;
-}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-public Asset getAsset() {
-    return asset;
-}
+    public Asset getAsset() { return asset; }
+    public void setAsset(Asset asset) { this.asset = asset; }
 
-public void setAsset(Asset asset) {
-    this.asset = asset;
-}
+    public String getDisposalMethod() { return disposalMethod; }
+    public void setDisposalMethod(String disposalMethod) { this.disposalMethod = disposalMethod; }
 
-public String getDisposalMethod() {
-    return disposalMethod;
-}
+    public LocalDate getDisposalDate() { return disposalDate; }
+    public void setDisposalDate(LocalDate disposalDate) { this.disposalDate = disposalDate; }
 
-public void setDisposalMethod(String disposalMethod) {
-    this.disposalMethod = disposalMethod;
-}
+    public User getApprovedBy() { return approvedBy; }
+    public void setApprovedBy(User approvedBy) { this.approvedBy = approvedBy; }
 
-public LocalDate getDisposalDate() {
-    return disposalDate;
-}
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 
-public void setDisposalDate(LocalDate disposalDate) {
-    this.disposalDate = disposalDate;
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
-
-public User getApprovedBy() {
-    return approvedBy;
-}
-
-public void setApprovedBy(User approvedBy) {
-    this.approvedBy = approvedBy;
-}
-
-public String getNotes() {
-    return notes;
-}
-
-public void setNotes(String notes) {
-    this.notes = notes;
-}
-
-public LocalDateTime getCreatedAt() {
-    return createdAt;
-}
-
-public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-}
-
-}
-
