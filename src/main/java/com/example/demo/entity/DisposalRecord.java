@@ -12,7 +12,7 @@ public class DisposalRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Asset is mandatory
+    // Must NOT be null
     @OneToOne(optional = false)
     @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
@@ -21,7 +21,7 @@ public class DisposalRecord {
 
     private LocalDate disposalDate;
 
-    // Approver is mandatory
+    // Must NOT be null
     @ManyToOne(optional = false)
     @JoinColumn(name = "approved_by", nullable = false)
     private User approvedBy;
@@ -31,10 +31,9 @@ public class DisposalRecord {
     private LocalDateTime createdAt;
 
     // ✅ REQUIRED by JPA
-    public DisposalRecord() {
-    }
+    public DisposalRecord() {}
 
-    // ✅ REQUIRED by TEST CASES (THIS WAS MISSING)
+    // ✅ REQUIRED by YOUR TEST CASES (VERY IMPORTANT)
     public DisposalRecord(
             Long id,
             Asset asset,
@@ -55,31 +54,66 @@ public class DisposalRecord {
 
     @PrePersist
     public void prePersist() {
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
         }
     }
 
-    // ---------- getters & setters ----------
+    // -------- getters & setters --------
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Asset getAsset() { return asset; }
-    public void setAsset(Asset asset) { this.asset = asset; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDisposalMethod() { return disposalMethod; }
-    public void setDisposalMethod(String disposalMethod) { this.disposalMethod = disposalMethod; }
+    public Asset getAsset() {
+        return asset;
+    }
 
-    public LocalDate getDisposalDate() { return disposalDate; }
-    public void setDisposalDate(LocalDate disposalDate) { this.disposalDate = disposalDate; }
+    public void setAsset(Asset asset) {
+        this.asset = asset;
+    }
 
-    public User getApprovedBy() { return approvedBy; }
-    public void setApprovedBy(User approvedBy) { this.approvedBy = approvedBy; }
+    public String getDisposalMethod() {
+        return disposalMethod;
+    }
 
-    public String getNotes() { return notes; }
-    public void setNotes(String notes) { this.notes = notes; }
+    public void setDisposalMethod(String disposalMethod) {
+        this.disposalMethod = disposalMethod;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDate getDisposalDate() {
+        return disposalDate;
+    }
+
+    public void setDisposalDate(LocalDate disposalDate) {
+        this.disposalDate = disposalDate;
+    }
+
+    public User getApprovedBy() {
+        return approvedBy;
+    }
+
+    public void setApprovedBy(User approvedBy) {
+        this.approvedBy = approvedBy;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }
