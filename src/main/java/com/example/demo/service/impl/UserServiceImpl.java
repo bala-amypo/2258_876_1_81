@@ -37,10 +37,7 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("Department is required");
         }
 
-        if (user.getRole() == null) {
-            user.setRole("USER");
-        }
-
+        // Role defaults via @PrePersist
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -62,4 +59,3 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
-
