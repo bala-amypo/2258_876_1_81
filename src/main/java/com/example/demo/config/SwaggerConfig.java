@@ -1,37 +1,37 @@
-package com.example.demo.config;
+// package com.example.demo.config;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+// import io.swagger.v3.oas.models.OpenAPI;
+// import io.swagger.v3.oas.models.Components;
+// import io.swagger.v3.oas.models.security.SecurityRequirement;
+// import io.swagger.v3.oas.models.security.SecurityScheme;
+// import io.swagger.v3.oas.models.servers.Server;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+// import java.util.List;
 
-@Configuration
-public class SwaggerConfig {
+// @Configuration
+// public class SwaggerConfig {
 
-    @Bean
-    public OpenAPI customOpenAPI() {
+//     @Bean
+//     public OpenAPI customOpenAPI() {
 
-        SecurityScheme bearerAuth = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT");
+//         SecurityScheme bearerAuth = new SecurityScheme()
+//                 .type(SecurityScheme.Type.HTTP)
+//                 .scheme("bearer")
+//                 .bearerFormat("JWT");
 
-        Server server = new Server()
-                .url("https://9148.32procr.amypo.ai/")
-                .description("Production Server");
+//         Server server = new Server()
+//                 .url("https://9148.32procr.amypo.ai/")
+//                 .description("Production Server");
 
-        return new OpenAPI()
-                .addSecurityItem(
-                        new SecurityRequirement().addList("bearerAuth")
-                )
-                .components(
-                        new Components().addSecuritySchemes("bearerAuth", bearerAuth)
-                )
-                .servers(List.of(server));
-    }
-}
+//         return new OpenAPI()
+//                 .addSecurityItem(
+//                         new SecurityRequirement().addList("bearerAuth")
+//                 )
+//                 .components(
+//                         new Components().addSecuritySchemes("bearerAuth", bearerAuth)
+//                 )
+//                 .servers(List.of(server));
+//     }
+// }
