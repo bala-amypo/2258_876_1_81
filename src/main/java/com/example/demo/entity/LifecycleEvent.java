@@ -119,11 +119,31 @@ public class LifecycleEvent {
     @ManyToOne @JoinColumn(name = "user_id")
     private User performedBy;
 
-    public void setAsset(Asset asset) { this.asset = asset; }
+    public LifecycleEvent() {}
+
+    // Constructor required by tests
+    public LifecycleEvent(Long id, Asset asset, String eventType, String eventDescription, LocalDateTime eventDate, User performedBy) {
+        this.id = id;
+        this.asset = asset;
+        this.eventType = eventType;
+        this.eventDescription = eventDescription;
+        this.eventDate = eventDate;
+        this.performedBy = performedBy;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (eventDate == null) eventDate = LocalDateTime.now();
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public Asset getAsset() { return asset; }
-    public void setPerformedBy(User user) { this.performedBy = user; }
-    public User getPerformedBy() { return performedBy; }
+    public void setAsset(Asset asset) { this.asset = asset; }
     public String getEventType() { return eventType; }
     public void setEventType(String type) { this.eventType = type; }
     public void setEventDescription(String desc) { this.eventDescription = desc; }
+    public LocalDateTime getEventDate() { return eventDate; }
+    public User getPerformedBy() { return performedBy; }
+    public void setPerformedBy(User user) { this.performedBy = user; }
 }
