@@ -38,20 +38,35 @@
 
 package com.example.demo.controller;
 
+import com.example.demo.dto.TransferRequestDTO;
 import com.example.demo.entity.TransferRecord;
+import com.example.demo.entity.User;
 import com.example.demo.service.TransferRecordService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/transfers")
+@Tag(name = "Transfers")
 public class TransferRecordController {
     private final TransferRecordService transferService;
 
-    public TransferRecordController(TransferRecordService transferService) { this.transferService = transferService; }
+    public TransferRecordController(TransferRecordService transferService) {
+        this.transferService = transferService;
+    }
 
     @PostMapping("/{assetId}")
-    public ResponseEntity<TransferRecord> create(@PathVariable Long assetId, @RequestBody TransferRecord record) {
+    public ResponseEntity<TransferRecord> create(@PathVariable Long assetId, @RequestBody TransferRequestDTO dto) {
+        TransferRecord record = new TransferRecord();
+        record.setFromDepartment(dto.getFromDepartment());
+        record.setToDepartment(dto.getToDepartment());
+        record.setTransferDate(dto.getTransferDate());
+        
+        User approver = new User();
+        approver.setId(dto.getApprovedByUserId());
+        record.setApprovedBy(approver);
+        
         return ResponseEntity.ok(transferService.createTransfer(assetId, record));
     }
 

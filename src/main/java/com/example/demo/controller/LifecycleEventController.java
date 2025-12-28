@@ -39,19 +39,30 @@
 
 package com.example.demo.controller;
 
+import com.example.demo.dto.LifecycleEventRequestDTO;
 import com.example.demo.entity.LifecycleEvent;
 import com.example.demo.service.LifecycleEventService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/events")
+@Tag(name = "Lifecycle Events")
 public class LifecycleEventController {
     private final LifecycleEventService eventService;
-    public LifecycleEventController(LifecycleEventService eventService) { this.eventService = eventService; }
+
+    public LifecycleEventController(LifecycleEventService eventService) {
+        this.eventService = eventService;
+    }
 
     @PostMapping("/{assetId}/{userId}")
-    public ResponseEntity<LifecycleEvent> logEvent(@PathVariable Long assetId, @PathVariable Long userId, @RequestBody LifecycleEvent event) {
+    public ResponseEntity<LifecycleEvent> logEvent(@PathVariable Long assetId, 
+                                                  @PathVariable Long userId, 
+                                                  @RequestBody LifecycleEventRequestDTO dto) {
+        LifecycleEvent event = new LifecycleEvent();
+        event.setEventType(dto.getEventType());
+        event.setEventDescription(dto.getEventDescription());
         return ResponseEntity.ok(eventService.logEvent(assetId, userId, event));
     }
 
