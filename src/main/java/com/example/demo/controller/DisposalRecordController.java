@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.DisposalRequest;
 import com.example.demo.entity.DisposalRecord;
+import com.example.demo.entity.User;
 import com.example.demo.service.DisposalRecordService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,17 @@ public class DisposalRecordController {
             @PathVariable Long assetId,
             @RequestBody DisposalRequest request
     ) {
-        return disposalRecordService.createDisposal(assetId, request);
+        // 🔁 DTO → ENTITY conversion (MANDATORY)
+        DisposalRecord record = new DisposalRecord();
+        record.setDisposalMethod(request.getDisposalMethod());
+        record.setDisposalDate(request.getDisposalDate());
+        record.setNotes(request.getNotes());
+
+        User approver = new User();
+        approver.setId(request.getApprovedByUserId());
+        record.setApprovedBy(approver);
+
+        return disposalRecordService.createDisposal(assetId, record);
     }
 
     @GetMapping
