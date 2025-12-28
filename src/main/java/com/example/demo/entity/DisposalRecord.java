@@ -23,7 +23,7 @@ public class DisposalRecord {
 
     // ✅ Must NOT be null (FIX FOR YOUR ERROR)
     @ManyToOne(optional = false)
-@JoinColumn(name = "approved_by", nullable = false)
+    @JoinColumn(name = "approved_by", nullable = false)
     private User approvedBy;
 
     private String notes;
