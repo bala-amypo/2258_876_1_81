@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.DisposalRequest;
 import com.example.demo.entity.DisposalRecord;
 import com.example.demo.service.DisposalRecordService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,9 +21,11 @@ public class DisposalRecordController {
     // 🔐 ADMIN ONLY
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{assetId}")
-    public DisposalRecord create(@PathVariable Long assetId,
-                                 @RequestBody DisposalRecord record) {
-        return disposalRecordService.createDisposal(assetId, record);
+    public DisposalRecord create(
+            @PathVariable Long assetId,
+            @RequestBody DisposalRequest request
+    ) {
+        return disposalRecordService.createDisposal(assetId, request);
     }
 
     @GetMapping
@@ -35,4 +38,3 @@ public class DisposalRecordController {
         return disposalRecordService.getDisposal(id);
     }
 }
-
