@@ -1,12 +1,12 @@
-package com.example.demo.repository;
+// package com.example.demo.repository;
 
-import com.example.demo.entity.Asset;
-import org.springframework.data.jpa.repository.JpaRepository;
+// import com.example.demo.entity.Asset;
+// import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+// import java.util.List;
 
-public interface AssetRepository extends JpaRepository<Asset, Long> {
+// public interface AssetRepository extends JpaRepository<Asset, Long> {
 
-    // ✅ REQUIRED FOR TESTS
-    List<Asset> findByStatus(String status);
-}
+//     // ✅ REQUIRED FOR TESTS
+//     List<Asset> findByStatus(String status);
+// }
