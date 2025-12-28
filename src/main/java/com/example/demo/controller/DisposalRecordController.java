@@ -35,3 +35,31 @@
 //         return disposalRecordService.getDisposal(id);
 //     }
 // }
+
+
+package com.example.demo.controller;
+
+import com.example.demo.entity.DisposalRecord;
+import com.example.demo.service.DisposalRecordService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/disposals")
+public class DisposalRecordController {
+    private final DisposalRecordService disposalService;
+    public DisposalRecordController(DisposalRecordService disposalService) { this.disposalService = disposalService; }
+
+    @PostMapping("/{assetId}")
+    public ResponseEntity<DisposalRecord> create(@PathVariable Long assetId, @RequestBody DisposalRecord disposal) {
+        return ResponseEntity.ok(disposalService.createDisposal(assetId, disposal));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DisposalRecord> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(disposalService.getDisposal(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAll() { return ResponseEntity.ok(disposalService.getAllDisposals()); }
+}
