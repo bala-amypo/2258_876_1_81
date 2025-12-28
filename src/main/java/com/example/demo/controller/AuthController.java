@@ -1,17 +1,3 @@
-package com.example.demo.controller;
-
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
-import com.example.demo.dto.UserResponse;
-import com.example.demo.entity.User;
-import com.example.demo.security.JwtUtil;
-import com.example.demo.service.UserService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -28,25 +14,34 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
+    // ✅ USER registration (PUBLIC)
     @PostMapping("/register")
-    public UserResponse register(@RequestBody RegisterRequest request) {
+    public UserResponse registerUser(@RequestBody RegisterRequest request) {
 
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setDepartment(request.getDepartment());
         user.setPassword(request.getPassword());
+        user.setRole("USER"); // 🔒 forced USER
 
         User saved = userService.registerUser(user);
+        return mapToResponse(saved);
+    }
 
-        return new UserResponse(
-                saved.getId(),
-                saved.getFullName(),
-                saved.getEmail(),
-                saved.getDepartment(),
-                saved.getRole(),
-                saved.getCreatedAt()
-        );
+    // ✅ ADMIN registration (PROTECTED)
+    @PostMapping("/register/admin")
+    public UserResponse registerAdmin(@RequestBody RegisterRequest request) {
+
+        User user = new User();
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+        user.setDepartment(request.getDepartment());
+        user.setPassword(request.getPassword());
+        user.setRole("ADMIN"); // 🔥 forced ADMIN
+
+        User saved = userService.registerUser(user);
+        return mapToResponse(saved);
     }
 
     @PostMapping("/login")
@@ -54,14 +49,23 @@ public class AuthController {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
+                        request.getEmail(), request.getPassword()
                 )
         );
 
         User user = userService.getByEmail(request.getEmail());
         String token = jwtUtil.generateTokenForUser(user);
-
         return Map.of("token", token);
+    }
+
+    private UserResponse mapToResponse(User user) {
+        return new UserResponse(
+                user.getId(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getDepartment(),
+                user.getRole(),
+                user.getCreatedAt()
+        );
     }
 }

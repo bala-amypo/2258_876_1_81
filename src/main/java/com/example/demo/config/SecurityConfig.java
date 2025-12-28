@@ -29,10 +29,12 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
-                        "/auth/**",
+                        "/auth/login",
+                        "/auth/register",
                         "/swagger-ui/**",
                         "/v3/api-docs/**"
                 ).permitAll()
+                .requestMatchers("/auth/register/admin").hasRole("ADMIN")
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
