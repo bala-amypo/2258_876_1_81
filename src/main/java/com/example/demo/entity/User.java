@@ -101,13 +101,25 @@ public class User {
     private String password;
     private LocalDateTime createdAt;
 
+    public User() {}
+
+    // Full constructor required by tests
+    public User(Long id, String fullName, String email, String department, String role, String password, LocalDateTime createdAt) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.department = department;
+        this.role = role;
+        this.password = password;
+        this.createdAt = createdAt;
+    }
+
     @PrePersist
     public void prePersist() {
         if (role == null) role = "USER";
         if (createdAt == null) createdAt = LocalDateTime.now();
     }
 
-    // Explicit Getters/Setters to fix "Symbol Not Found"
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getEmail() { return email; }
@@ -120,4 +132,5 @@ public class User {
     public void setDepartment(String department) { this.department = department; }
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 }

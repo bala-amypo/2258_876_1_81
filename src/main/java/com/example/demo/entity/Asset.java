@@ -90,7 +90,23 @@ public class Asset {
     private String model;
     private LocalDate purchaseDate;
     private String status;
+    @ManyToOne @JoinColumn(name = "user_id")
+    private User currentHolder;
     private LocalDateTime createdAt;
+
+    public Asset() {}
+
+    // Full constructor required by tests
+    public Asset(Long id, String assetTag, String assetType, String model, LocalDate purchaseDate, String status, User currentHolder, LocalDateTime createdAt) {
+        this.id = id;
+        this.assetTag = assetTag;
+        this.assetType = assetType;
+        this.model = model;
+        this.purchaseDate = purchaseDate;
+        this.status = status;
+        this.currentHolder = currentHolder;
+        this.createdAt = createdAt;
+    }
 
     @PrePersist
     public void prePersist() {
@@ -100,8 +116,11 @@ public class Asset {
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
     public String getAssetTag() { return assetTag; }
     public void setAssetTag(String tag) { this.assetTag = tag; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public User getCurrentHolder() { return currentHolder; }
+    public void setCurrentHolder(User u) { this.currentHolder = u; }
 }
