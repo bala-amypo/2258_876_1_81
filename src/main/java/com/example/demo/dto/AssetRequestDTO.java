@@ -23,16 +23,21 @@
 // }
 
 package com.example.demo.dto;
-
-import lombok.*;
 import java.time.LocalDate;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class AssetRequest {
+public class AssetRequestDTO {
     private String assetTag;
-    private String assetType; // LAPTOP, DESKTOP, etc.
+    private String assetType;
     private String model;
     private LocalDate purchaseDate;
+
+    // Standard Getters/Setters
+    public String getAssetTag() { return assetTag; }
+    public void setAssetTag(String assetTag) { this.assetTag = assetTag; }
+    public String getAssetType() { return assetType; }
+    public void setAssetType(String assetType) { this.assetType = assetType; }
+    public String getModel() { return model; }
+    public void setModel(String model) { this.model = model; }
+    public LocalDate getPurchaseDate() { return purchaseDate; }
+    public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
 }
