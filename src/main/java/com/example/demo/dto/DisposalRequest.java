@@ -8,10 +8,8 @@ public class DisposalRequest {
     private LocalDate disposalDate;
     private String notes;
 
-    // 🔥 MUST MATCH JSON EXACTLY
     private Long approvedByUserId;
 
-    // getters and setters
     public String getDisposalMethod() {
         return disposalMethod;
     }

@@ -12,7 +12,6 @@ public class DisposalRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ⚠ Allow null for tests (service layer validates)
     @OneToOne
     @JoinColumn(name = "asset_id")
     private Asset asset;
@@ -21,7 +20,6 @@ public class DisposalRecord {
 
     private LocalDate disposalDate;
 
-    // ⚠ Allow null for tests (service layer validates)
     @ManyToOne
     @JoinColumn(name = "approved_by")
     private User approvedBy;
@@ -30,11 +28,9 @@ public class DisposalRecord {
 
     private LocalDateTime createdAt;
 
-    // ✅ Required by JPA
     public DisposalRecord() {
     }
 
-    // ✅ Required by YOUR TEST CASES
     public DisposalRecord(
             Long id,
             Asset asset,
@@ -60,7 +56,6 @@ public class DisposalRecord {
         }
     }
 
-    // ---------------- GETTERS & SETTERS ----------------
 
     public Long getId() {
         return id;

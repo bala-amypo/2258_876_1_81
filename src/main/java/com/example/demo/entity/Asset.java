@@ -21,7 +21,6 @@ public class Asset {
     private LocalDate purchaseDate;
     private String status;
 
-    // 🔴 BACK reference (prevents recursion)
     @ManyToOne
     @JoinColumn(name = "current_holder")
     @JsonBackReference
@@ -50,7 +49,6 @@ public class Asset {
         if (createdAt == null) createdAt = LocalDateTime.now();
     }
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

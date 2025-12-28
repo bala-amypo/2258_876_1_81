@@ -37,7 +37,6 @@ public class AuthController {
         user.setEmail(request.getEmail());
         user.setDepartment(request.getDepartment());
         user.setPassword(request.getPassword());
-        // ❗ role NOT set here → defaults to USER (@PrePersist)
 
         User saved = userService.registerUser(user);
         return mapToResponse(saved);
