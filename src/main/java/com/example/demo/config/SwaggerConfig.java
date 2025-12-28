@@ -27,7 +27,7 @@ public class SwaggerConfig {
                 .description("Production Server");
 
         return new OpenAPI()
-                // ✅ THIS LINE MAKES YOUR PROJECT NAME APPEAR
+               
                 .info(new Info()
                         .title("Digital Asset Lifecycle & Audit Trail API")
                         .version("1.0")
