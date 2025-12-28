@@ -21,3 +21,18 @@
 //     public LocalDate getPurchaseDate() { return purchaseDate; }
 //     public void setPurchaseDate(LocalDate purchaseDate) { this.purchaseDate = purchaseDate; }
 // }
+
+package com.example.demo.dto;
+
+import lombok.*;
+import java.time.LocalDate;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AssetRequest {
+    private String assetTag;
+    private String assetType; // LAPTOP, DESKTOP, etc.
+    private String model;
+    private LocalDate purchaseDate;
+}
