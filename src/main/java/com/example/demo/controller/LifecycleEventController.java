@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.LifecycleEvent;
 import com.example.demo.service.LifecycleEventService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class LifecycleEventController {
         this.lifecycleEventService = lifecycleEventService;
     }
 
+    // 👥 USER + ADMIN
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @PostMapping("/{assetId}/{userId}")
     public LifecycleEvent log(@PathVariable Long assetId,
                               @PathVariable Long userId,

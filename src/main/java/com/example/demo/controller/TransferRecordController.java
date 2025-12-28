@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.TransferRecord;
 import com.example.demo.service.TransferRecordService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class TransferRecordController {
         this.transferRecordService = transferRecordService;
     }
 
+    // 🔐 ADMIN ONLY
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{assetId}")
     public TransferRecord create(@PathVariable Long assetId,
                                  @RequestBody TransferRecord record) {
