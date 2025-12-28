@@ -99,26 +99,57 @@
 
 // }
 
-
 package com.example.demo.entity;
+
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Entity @Table(name = "disposal_records")
+@Entity
+@Table(name = "disposal_records")
 public class DisposalRecord {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne @JoinColumn(name = "asset_id")
+
+    @OneToOne
+    @JoinColumn(name = "asset_id")
     private Asset asset;
+
     private String disposalMethod;
     private LocalDate disposalDate;
-    @ManyToOne @JoinColumn(name = "user_id")
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User approvedBy;
 
+    private String notes; // Added missing field
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) createdAt = LocalDateTime.now();
+    }
+
+    // Standard Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Asset getAsset() { return asset; }
     public void setAsset(Asset asset) { this.asset = asset; }
-    public void setApprovedBy(User user) { this.approvedBy = user; }
-    public User getApprovedBy() { return approvedBy; }
+
+    public String getDisposalMethod() { return disposalMethod; }
+    public void setDisposalMethod(String disposalMethod) { this.disposalMethod = disposalMethod; }
+
     public LocalDate getDisposalDate() { return disposalDate; }
-    public void setDisposalDate(LocalDate d) { this.disposalDate = d; }
-    public void setDisposalMethod(String m) { this.disposalMethod = m; }
+    public void setDisposalDate(LocalDate disposalDate) { this.disposalDate = disposalDate; }
+
+    public User getApprovedBy() { return approvedBy; }
+    public void setApprovedBy(User approvedBy) { this.approvedBy = approvedBy; }
+
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; } // Added missing setter
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
