@@ -24,7 +24,7 @@ public class AssetServiceImpl implements AssetService {
         try {
             return assetRepository.save(asset);
         } catch (DataIntegrityViolationException ex) {
-            // 🔥 Handles duplicate assetTag
+           
             throw new ValidationException("Asset tag already exists");
         }
     }
