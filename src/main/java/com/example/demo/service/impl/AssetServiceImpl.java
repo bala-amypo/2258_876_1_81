@@ -2,8 +2,10 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.Asset;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.ValidationException;
 import com.example.demo.repository.AssetRepository;
 import com.example.demo.service.AssetService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +21,12 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     public Asset createAsset(Asset asset) {
-        return assetRepository.save(asset);
+        try {
+            return assetRepository.save(asset);
+        } catch (DataIntegrityViolationException ex) {
+            // 🔥 Handles duplicate assetTag
+            throw new ValidationException("Asset tag already exists");
+        }
     }
 
     @Override
@@ -42,4 +49,3 @@ public class AssetServiceImpl implements AssetService {
         return assetRepository.save(asset);
     }
 }
-
