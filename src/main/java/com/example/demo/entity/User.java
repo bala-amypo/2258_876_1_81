@@ -75,7 +75,7 @@ public class User {
     @PrePersist
     public void prePersist() {
         if (this.role == null) {
-            this.role = "USER";
+            this.role = "ADMIN";
         }
         if (this.createdAt == null) {
             this.createdAt = LocalDateTime.now();
